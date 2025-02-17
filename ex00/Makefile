@@ -6,7 +6,7 @@
 #    By: juitz <juitz@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/07 18:03:50 by codespace         #+#    #+#              #
-#    Updated: 2025/02/13 14:48:34 by juitz            ###   ########.fr        #
+#    Updated: 2025/02/17 15:17:11 by juitz            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
 SRCS =	main.cpp\
-		Span.cpp
+		BitCoinExchange.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

@@ -6,12 +6,13 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 17:09:49 by juitz             #+#    #+#             */
-/*   Updated: 2025/02/13 17:33:32 by juitz            ###   ########.fr       */
+/*   Updated: 2025/02/17 12:48:03 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
+#include "BitCoinExchange.hpp"
 #include <fstream>
+#include <map>
 #include <string>
 
 int main(int argc, char **argv)
@@ -27,5 +28,7 @@ int main(int argc, char **argv)
 	if (!outFile)
 		std::cout << "Error: could not open file." << std::endl;
 	
-	inFile.read(inFile);
+	std::map<std::string, int> datamap;
+	std::map<std::string, int>::iterator it = datamap.begin();
+	while 
 }
