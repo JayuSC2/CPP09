@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 17:09:49 by juitz             #+#    #+#             */
-/*   Updated: 2025/02/17 12:48:03 by juitz            ###   ########.fr       */
+/*   Updated: 2025/02/17 16:28:45 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,20 @@
 
 int main(int argc, char **argv)
 {
-	if (argc !=2)
-		std::cout << "Error: could not open file." << std::endl;
-	
-	std::string filename = argv[1];
-	std::ifstream inFile(filename);
-	if (!inFile)
-		std::cout << "Error: could not open file." << std::endl;
-	std::ofstream outFile(filename + ".test");
-	if (!outFile)
-		std::cout << "Error: could not open file." << std::endl;
-	
-	std::map<std::string, int> datamap;
-	std::map<std::string, int>::iterator it = datamap.begin();
-	while 
+	(void) argc;
+	(void) argv;
+	/* if (argc !=2)
+		std::cout << "Error: could not open file." << std::endl; */
+	BitCoinExchange BCE;
+	BCE.parse_data("data.csv");
+	if (!BCE._data.empty())
+	{
+		std::map<std::string, int>::iterator it = BCE._data.begin();
+		std::cout << "First pair: " << it->first << " => " << it->second << std::endl;
+	}
+	else 
+	{
+		std::cout << "The map is empty" << std::endl;
+	}
+	return (0);
 }
