@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:49:12 by juitz             #+#    #+#             */
-/*   Updated: 2025/02/18 18:07:54 by juitz            ###   ########.fr       */
+/*   Updated: 2025/02/18 18:57:31 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,19 @@ std::map<std::string, int> BitCoinExchange::data_to_map(const std::string &filen
 	return (_data);
 }
 
+bool BitCoinExchange::is_date_valid(const std::string date)
+{
+	int i = 0;
+	if ()
+}
+
 std::multimap<std::string, int> BitCoinExchange::input_to_map(const std::string &filename)
 {
     std::ifstream inFile(filename.c_str());
     if (!inFile)
     {
         std::cout << "Error: could not open file " << filename << std::endl;
-        return _input;
+        return (_input);
     }
 
     std::string line;
@@ -88,19 +94,24 @@ std::multimap<std::string, int> BitCoinExchange::input_to_map(const std::string 
 
         if (std::getline(ss, key, '|') && ss >> value)
         {
-            if (value < 0 || value > static_cast<double>(std::numeric_limits<int>::max()))
+            if (value > static_cast<double>(std::numeric_limits<int>::max()))
             {
                 std::cout << "Error: too large a number." << std::endl;
+                continue ;
+            }
+			if (value < 0) 
+			{
+                std::cout << "Error: not a positive number." << std::endl;
                 continue ;
             }
             _input.insert(std::make_pair(key, static_cast<int>(value)));
         }
         else if (!firstLine)
         {
-            std::cout << "Error: invalid line format: " << line << std::endl;
+            std::cout << "Error: bad input => " << line << std::endl;
         }
         firstLine = false;
     }
-    return _input;
+    return (_input);
 }
 

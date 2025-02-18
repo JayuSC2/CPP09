@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:57:49 by juitz             #+#    #+#             */
-/*   Updated: 2025/02/18 18:04:23 by juitz            ###   ########.fr       */
+/*   Updated: 2025/02/18 18:55:32 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,5 @@ class BitCoinExchange
 
 		std::map<std::string, int> data_to_map(const std::string &filename);
 		std::multimap<std::string, int> input_to_map(const std::string &filename);
-		bool check_valid_format(void);
+		bool is_date_valid(const std::string date);
 };
