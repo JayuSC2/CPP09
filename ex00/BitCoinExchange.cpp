@@ -6,14 +6,11 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:49:12 by juitz             #+#    #+#             */
-/*   Updated: 2025/02/17 16:29:11 by juitz            ###   ########.fr       */
+/*   Updated: 2025/02/18 18:07:54 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitCoinExchange.hpp"
-#include <fstream>
-#include <sstream>
-#include <string>
 
 
 BitCoinExchange::BitCoinExchange()
@@ -46,7 +43,7 @@ BitCoinExchange::~BitCoinExchange()
 	std::cout << "BitCoinExchange default destructor called" << std::endl;
 }
 
-std::map<std::string, int> BitCoinExchange::parse_data(const std::string &filename)
+std::map<std::string, int> BitCoinExchange::data_to_map(const std::string &filename)
 {
 	std::ifstream inFile(filename.c_str());
 	if (!inFile)
@@ -56,17 +53,54 @@ std::map<std::string, int> BitCoinExchange::parse_data(const std::string &filena
 	}
 	
 	std::string line;
+	bool firstLine = true;
 	while (std::getline(inFile, line))
 	{
 		std::istringstream ss(line);
 		std::string key;
-		int value;
+		unsigned int value;
 		
 		if (getline(ss, key, ',') && ss >> value)
 			_data[key] = value;
-		else
+		else if (firstLine == false)
 		 	std::cout << "Error: invalid line format: " << line << std::endl;
+		firstLine = false;
 	}
 	return (_data);
+}
+
+std::multimap<std::string, int> BitCoinExchange::input_to_map(const std::string &filename)
+{
+    std::ifstream inFile(filename.c_str());
+    if (!inFile)
+    {
+        std::cout << "Error: could not open file " << filename << std::endl;
+        return _input;
+    }
+
+    std::string line;
+    bool firstLine = true;
+    while (std::getline(inFile, line))
+    {
+        std::istringstream ss(line);
+        std::string key;
+        double value;
+
+        if (std::getline(ss, key, '|') && ss >> value)
+        {
+            if (value < 0 || value > static_cast<double>(std::numeric_limits<int>::max()))
+            {
+                std::cout << "Error: too large a number." << std::endl;
+                continue ;
+            }
+            _input.insert(std::make_pair(key, static_cast<int>(value)));
+        }
+        else if (!firstLine)
+        {
+            std::cout << "Error: invalid line format: " << line << std::endl;
+        }
+        firstLine = false;
+    }
+    return _input;
 }
 

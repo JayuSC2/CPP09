@@ -6,26 +6,34 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:57:49 by juitz             #+#    #+#             */
-/*   Updated: 2025/02/17 16:26:49 by juitz            ###   ########.fr       */
+/*   Updated: 2025/02/18 18:04:23 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 #include <iostream>
 #include <map>
+#include <fstream>
+#include <limits>
+#include <sstream>
+#include <string>
 
 class BitCoinExchange
 {
-	//private:
+/* 	private:
+		std::map<std::string, int> _data;
+		std::multimap<std::string, int> _input; */
 	
 	public:
 		std::map<std::string, int> _data;
+		std::multimap<std::string, int> _input;
 		BitCoinExchange();
 		BitCoinExchange(const std::map<std::string, int> &data);
 		~BitCoinExchange();
 		BitCoinExchange(const BitCoinExchange &copy);
 		BitCoinExchange &operator=(const BitCoinExchange &other);
 
-		std::map<std::string, int> parse_data(const std::string &filename);
-		
+		std::map<std::string, int> data_to_map(const std::string &filename);
+		std::multimap<std::string, int> input_to_map(const std::string &filename);
+		bool check_valid_format(void);
 };
