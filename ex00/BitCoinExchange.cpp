@@ -6,12 +6,11 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:49:12 by juitz             #+#    #+#             */
-/*   Updated: 2025/02/18 18:57:31 by juitz            ###   ########.fr       */
+/*   Updated: 2025/02/19 18:14:51 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitCoinExchange.hpp"
-
 
 BitCoinExchange::BitCoinExchange()
 {
@@ -62,8 +61,16 @@ std::map<std::string, int> BitCoinExchange::data_to_map(const std::string &filen
 		
 		if (getline(ss, key, ',') && ss >> value)
 			_data[key] = value;
+		if (!is_date_valid(key))
+		{
+			std::cout << "Error: Date not valid." << std::endl;
+			continue ;
+		}
 		else if (firstLine == false)
+		{
 		 	std::cout << "Error: invalid line format: " << line << std::endl;
+			continue ;
+		}
 		firstLine = false;
 	}
 	return (_data);
@@ -71,8 +78,31 @@ std::map<std::string, int> BitCoinExchange::data_to_map(const std::string &filen
 
 bool BitCoinExchange::is_date_valid(const std::string date)
 {
-	int i = 0;
-	if ()
+	if (date.size() != 11 || date[4] != '-' || date[7] != '-')
+		return (false);
+
+	for (int i = 0; i <= 11; ++i)
+	{
+		if (date[4] || date[7])
+			continue ;
+		if (!std::isdigit(date[i]))
+			return (false);
+	}
+
+	int year = std::atoi(date.substr(0, 4).c_str());
+	int month = std::atoi(date.substr(5, 2).c_str());
+	int day = std::atoi(date.substr(8, 2).c_str());
+
+	if (month < 1 || month > 12)
+		return (false);
+	if (day < 1 || day > 31)
+		return (false);
+	if ((month == 4 || month == 6 || month == 9 || month == 11) && day > 30)
+		return (false);
+	bool isLeapYear;
+	if (year % 4 == 0 && (year % 100 != 0) && year % 400 != 0)
+		isLeapYear = true;
+	return (true);
 }
 
 std::multimap<std::string, int> BitCoinExchange::input_to_map(const std::string &filename)
@@ -104,6 +134,13 @@ std::multimap<std::string, int> BitCoinExchange::input_to_map(const std::string 
                 std::cout << "Error: not a positive number." << std::endl;
                 continue ;
             }
+			std::cout << key << std::endl;
+			//std::cout << key.size() << std::endl;
+			if (!is_date_valid(key))
+			{
+				std::cout << "Error: Date not valid." << std::endl;
+				continue ;
+			}
             _input.insert(std::make_pair(key, static_cast<int>(value)));
         }
         else if (!firstLine)
