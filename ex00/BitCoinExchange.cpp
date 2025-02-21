@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:49:12 by juitz             #+#    #+#             */
-/*   Updated: 2025/02/21 17:49:07 by juitz            ###   ########.fr       */
+/*   Updated: 2025/02/21 17:56:46 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ BitCoinExchange::BitCoinExchange()
 	std::cout << "BitCoinExchange default constructor called" << std::endl;
 }
 
-BitCoinExchange::BitCoinExchange(const std::map <std::string, int> &data) : _data(data)
+BitCoinExchange::BitCoinExchange(const std::map <std::string, double> &data) : _data(data)
 {
 	std::cout << "BitCoinExchange parameterized constructor called" << std::endl;
 }
@@ -42,7 +42,7 @@ BitCoinExchange::~BitCoinExchange()
 	std::cout << "BitCoinExchange default destructor called" << std::endl;
 }
 
-std::map<std::string, int> BitCoinExchange::data_to_map(const std::string &filename)
+std::map<std::string, double> BitCoinExchange::data_to_map(const std::string &filename)
 {
 	std::ifstream inFile(filename.c_str());
 	if (!inFile)
@@ -90,10 +90,10 @@ std::map<std::string, int> BitCoinExchange::data_to_map(const std::string &filen
 
 bool BitCoinExchange::is_date_valid(const std::string date)
 {
-	if (date.size() != 10 || date[4] != '-' || date[7] != '-')
+	if (date.size() != 11 || date[4] != '-' || date[7] != '-')
 		return (false);
 
-	for (int i = 0; i <= 10; ++i)
+	for (int i = 0; i <= 11; ++i)
 	{
 		if (date[4] || date[7])
 			continue ;
@@ -117,7 +117,7 @@ bool BitCoinExchange::is_date_valid(const std::string date)
 	return (true);
 }
 
-std::multimap<std::string, int> BitCoinExchange::input_to_map(const std::string &filename)
+std::multimap<std::string, double> BitCoinExchange::input_to_map(const std::string &filename)
 {
     std::ifstream inFile(filename.c_str());
     if (!inFile)
@@ -153,7 +153,7 @@ std::multimap<std::string, int> BitCoinExchange::input_to_map(const std::string 
 				std::cout << "Error: Date not valid." << std::endl;
 				continue ;
 			}
-            _input.insert(std::make_pair(key, static_cast<int>(value)));
+            _input.insert(std::make_pair(key, static_cast<double>(value)));
         }
         else if (!firstLine)
         {
