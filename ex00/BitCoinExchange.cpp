@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:49:12 by juitz             #+#    #+#             */
-/*   Updated: 2025/02/19 18:14:51 by juitz            ###   ########.fr       */
+/*   Updated: 2025/02/21 17:49:07 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,24 @@ std::map<std::string, int> BitCoinExchange::data_to_map(const std::string &filen
 	{
 		std::istringstream ss(line);
 		std::string key;
-		unsigned int value;
+		double value;
 		
-		if (getline(ss, key, ',') && ss >> value)
+		if (getline(ss, key, ',') && ss >> value && firstLine == false)
+		{
+			if (value > static_cast<double>(std::numeric_limits<int>::max()))
+            {
+                std::cout << "Error: too large a number." << std::endl;
+                continue ;
+            }
+			if (value < 0)
+			{
+                std::cout << "Error: not a positive number." << std::endl;
+                continue ;
+            }
 			_data[key] = value;
-		if (!is_date_valid(key))
+			continue ;
+		}
+		if (!is_date_valid(key) && firstLine == false)
 		{
 			std::cout << "Error: Date not valid." << std::endl;
 			continue ;
@@ -69,7 +82,6 @@ std::map<std::string, int> BitCoinExchange::data_to_map(const std::string &filen
 		else if (firstLine == false)
 		{
 		 	std::cout << "Error: invalid line format: " << line << std::endl;
-			continue ;
 		}
 		firstLine = false;
 	}
@@ -78,10 +90,10 @@ std::map<std::string, int> BitCoinExchange::data_to_map(const std::string &filen
 
 bool BitCoinExchange::is_date_valid(const std::string date)
 {
-	if (date.size() != 11 || date[4] != '-' || date[7] != '-')
+	if (date.size() != 10 || date[4] != '-' || date[7] != '-')
 		return (false);
 
-	for (int i = 0; i <= 11; ++i)
+	for (int i = 0; i <= 10; ++i)
 	{
 		if (date[4] || date[7])
 			continue ;
@@ -89,7 +101,7 @@ bool BitCoinExchange::is_date_valid(const std::string date)
 			return (false);
 	}
 
-	int year = std::atoi(date.substr(0, 4).c_str());
+	//int year = std::atoi(date.substr(0, 4).c_str());
 	int month = std::atoi(date.substr(5, 2).c_str());
 	int day = std::atoi(date.substr(8, 2).c_str());
 
@@ -99,9 +111,9 @@ bool BitCoinExchange::is_date_valid(const std::string date)
 		return (false);
 	if ((month == 4 || month == 6 || month == 9 || month == 11) && day > 30)
 		return (false);
-	bool isLeapYear;
+/* 	bool isLeapYear;
 	if (year % 4 == 0 && (year % 100 != 0) && year % 400 != 0)
-		isLeapYear = true;
+		isLeapYear = true; */
 	return (true);
 }
 
@@ -129,14 +141,14 @@ std::multimap<std::string, int> BitCoinExchange::input_to_map(const std::string 
                 std::cout << "Error: too large a number." << std::endl;
                 continue ;
             }
-			if (value < 0) 
+			if (value < 0)
 			{
                 std::cout << "Error: not a positive number." << std::endl;
                 continue ;
             }
 			std::cout << key << std::endl;
 			//std::cout << key.size() << std::endl;
-			if (!is_date_valid(key))
+			if (!is_date_valid(key) && firstLine == false)
 			{
 				std::cout << "Error: Date not valid." << std::endl;
 				continue ;
@@ -151,4 +163,5 @@ std::multimap<std::string, int> BitCoinExchange::input_to_map(const std::string 
     }
     return (_input);
 }
+
 
