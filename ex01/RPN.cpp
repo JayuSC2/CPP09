@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 16:45:01 by juitz             #+#    #+#             */
-/*   Updated: 2025/03/08 16:46:22 by juitz            ###   ########.fr       */
+/*   Updated: 2025/03/08 16:49:06 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ RPN::RPN()
 	std::cout << "RPN default constructor called" << std::endl;
 }
 
-/* RPN::RPN()
+RPN::RPN(std::stack<int> &stack) : _stack(stack)
 {
 	std::cout << "RPN parameterized constructor called" << std::endl;
-} */
+}
 
 RPN::RPN(const RPN &copy)
 {

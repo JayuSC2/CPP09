@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 16:40:39 by juitz             #+#    #+#             */
-/*   Updated: 2025/03/08 16:44:36 by juitz            ###   ########.fr       */
+/*   Updated: 2025/03/08 16:48:46 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ class RPN
 		std::stack<int> _stack;
 	public:
 		RPN();
+		RPN(std::stack<int> &stack);
 		~RPN();
         RPN(const RPN &other);
         RPN &operator=(const RPN &other);
