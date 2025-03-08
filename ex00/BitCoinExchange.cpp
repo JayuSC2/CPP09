@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:49:12 by juitz             #+#    #+#             */
-/*   Updated: 2025/02/21 17:56:46 by juitz            ###   ########.fr       */
+/*   Updated: 2025/03/08 16:22:20 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,27 @@ std::map<std::string, double> BitCoinExchange::data_to_map(const std::string &fi
 	return (_data);
 }
 
+double BitCoinExchange::getExchangeRate(const std::string &date)
+{
+    if (_data.find(date) != _data.end())
+        return _data[date];
+    
+    std::map<std::string, double>::iterator it = _data.lower_bound(date);
+    if (it == _data.begin() && date < it->first) 
+	{
+        std::cout << "Error: no data available for date " << date << std::endl;
+        return (-1);
+    }
+    
+    if (it != _data.begin() && (it == _data.end() || it->first > date))
+        --it;
+    
+    return (it->second);
+}
+
 bool BitCoinExchange::is_date_valid(const std::string date)
 {
-	if (date.size() != 11 || date[4] != '-' || date[7] != '-')
+	if (date.size() != 10 || date[4] != '-' || date[7] != '-')
 		return (false);
 
 	for (int i = 0; i <= 11; ++i)
@@ -131,11 +149,13 @@ std::multimap<std::string, double> BitCoinExchange::input_to_map(const std::stri
     while (std::getline(inFile, line))
     {
         std::istringstream ss(line);
-        std::string key;
+        std::string dateStr;
         double value;
 
-        if (std::getline(ss, key, '|') && ss >> value)
+        if (std::getline(ss, dateStr, '|') && ss >> value)
         {
+			dateStr.erase(0, dateStr.find_first_not_of(" \t"));
+            dateStr.erase(dateStr.find_last_not_of(" \t") + 1);
             if (value > static_cast<double>(std::numeric_limits<int>::max()))
             {
                 std::cout << "Error: too large a number." << std::endl;
@@ -146,14 +166,17 @@ std::multimap<std::string, double> BitCoinExchange::input_to_map(const std::stri
                 std::cout << "Error: not a positive number." << std::endl;
                 continue ;
             }
-			std::cout << key << std::endl;
-			//std::cout << key.size() << std::endl;
-			if (!is_date_valid(key) && firstLine == false)
+			if (!is_date_valid(dateStr) && firstLine == false)
 			{
 				std::cout << "Error: Date not valid." << std::endl;
 				continue ;
 			}
-            _input.insert(std::make_pair(key, static_cast<double>(value)));
+            _input.insert(std::make_pair(dateStr, static_cast<double>(value)));
+			
+			double exchangeRate = getExchangeRate(dateStr);
+            if (exchangeRate >= 0)
+                std::cout << dateStr << " => " << value << " = " << (value * exchangeRate) << std::endl;
+			
         }
         else if (!firstLine)
         {
