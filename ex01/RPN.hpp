@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RPN.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 16:40:39 by juitz             #+#    #+#             */
-/*   Updated: 2025/03/08 16:48:46 by juitz            ###   ########.fr       */
+/*   Updated: 2025/03/09 19:11:06 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 class RPN
 {
 	private:
+		std::string rawInput;
 		std::stack<int> _stack;
 	public:
 		RPN();
@@ -26,4 +27,7 @@ class RPN
         RPN &operator=(const RPN &other);
 
 		int calculate(const std::string &input);
+		const std::string getRawInput() const;
+		void setRawInput(const std::string &input);
+		//std::stack getStack() const;
 };
