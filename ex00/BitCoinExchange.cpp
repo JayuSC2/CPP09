@@ -6,11 +6,13 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:49:12 by juitz             #+#    #+#             */
-/*   Updated: 2025/03/08 16:22:20 by juitz            ###   ########.fr       */
+/*   Updated: 2025/03/17 14:50:00 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitCoinExchange.hpp"
+#include <map>
+#include <string>
 
 BitCoinExchange::BitCoinExchange()
 {
@@ -40,6 +42,16 @@ BitCoinExchange &BitCoinExchange::operator=(const BitCoinExchange &other)
 BitCoinExchange::~BitCoinExchange()
 {
 	std::cout << "BitCoinExchange default destructor called" << std::endl;
+}
+
+const std::map<std::string, double>& BitCoinExchange::getData() const
+{
+	return (_data);
+}
+
+const std::multimap<std::string, double>& BitCoinExchange::getInput() const
+{
+	return (_input);
 }
 
 std::map<std::string, double> BitCoinExchange::data_to_map(const std::string &filename)
@@ -91,7 +103,7 @@ std::map<std::string, double> BitCoinExchange::data_to_map(const std::string &fi
 double BitCoinExchange::getExchangeRate(const std::string &date)
 {
     if (_data.find(date) != _data.end())
-        return _data[date];
+        return (_data[date]);
     
     std::map<std::string, double>::iterator it = _data.lower_bound(date);
     if (it == _data.begin() && date < it->first) 
@@ -101,8 +113,10 @@ double BitCoinExchange::getExchangeRate(const std::string &date)
     }
     
     if (it != _data.begin() && (it == _data.end() || it->first > date))
+	{
+		std::cout << "no data availale for date " << date << ", using most recent available data: " << (--it)->first << std::endl;
         --it;
-    
+	}
     return (it->second);
 }
 

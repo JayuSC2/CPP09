@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:57:49 by juitz             #+#    #+#             */
-/*   Updated: 2025/03/08 16:11:46 by juitz            ###   ########.fr       */
+/*   Updated: 2025/03/17 14:51:50 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,11 @@
 
 class BitCoinExchange
 {
-/* 	private:
-		std::map<std::string, int> _data;
-		std::multimap<std::string, int> _input; */
-	
-	public:
+	private:
 		std::map<std::string, double> _data;
 		std::multimap<std::string, double> _input;
+	
+	public:
 		BitCoinExchange();
 		BitCoinExchange(const std::map<std::string, double> &data);
 		~BitCoinExchange();
@@ -39,6 +37,7 @@ class BitCoinExchange
 		std::multimap<std::string, double> input_to_map(const std::string &filename);
 		bool is_date_valid(const std::string date);
 		double getExchangeRate(const std::string &date);
-		
-	
+
+		const std::map<std::string, double>& getData() const;
+        const std::multimap<std::string, double>& getInput() const;
 };
