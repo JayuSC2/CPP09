@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 18:12:38 by codespace         #+#    #+#             */
-/*   Updated: 2025/03/09 19:12:35 by codespace        ###   ########.fr       */
+/*   Updated: 2025/03/18 14:18:59 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,6 @@ int main(int argc, char **argv)
 	}
 	RPN rpn;
 	rpn.setRawInput(argv[1]);
+	std::cout << rpn.getRawInput() << std::endl;
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RPN.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 16:45:01 by juitz             #+#    #+#             */
-/*   Updated: 2025/03/09 19:11:23 by codespace        ###   ########.fr       */
+/*   Updated: 2025/03/18 14:37:21 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,36 @@ const std::string RPN::getRawInput() const
 void RPN::setRawInput(const std::string &input)
 {
 	this->rawInput = input;
+}
+
+void RPN::num_to_stack(const std::string &input)
+{
+	std::istringstream iss(input);
+	std::string token;
+
+	while (iss >> token)
+	{
+		if (token.size() == 1 && std::isdigit(token[0]))
+		{
+			int num = token[0] - '0';
+			_stack.push(num);
+		}
+		else if (token.size() == 1 && token[0] == '+' || token[0] == '-' || token[0] == '/' || token[0] == '*')
+		{
+			if (token.size() == 2)
+			{
+				(std::cerr << "Not enough operands for amount of operators" << std::endl, 1);
+				return ;
+			}
+		}
+}
+void RPN::parse_input(const std::string &input)
+{
+	
+}
+
+int RPN::calculate(const std::string &input)
+{
+	int result;
+	
 }
