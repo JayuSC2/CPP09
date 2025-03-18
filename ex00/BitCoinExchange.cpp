@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:49:12 by juitz             #+#    #+#             */
-/*   Updated: 2025/03/17 14:50:00 by juitz            ###   ########.fr       */
+/*   Updated: 2025/03/18 12:54:56 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ bool BitCoinExchange::is_date_valid(const std::string date)
 			return (false);
 	}
 
-	//int year = std::atoi(date.substr(0, 4).c_str());
+	int year = std::atoi(date.substr(0, 4).c_str());
 	int month = std::atoi(date.substr(5, 2).c_str());
 	int day = std::atoi(date.substr(8, 2).c_str());
 
@@ -143,9 +143,13 @@ bool BitCoinExchange::is_date_valid(const std::string date)
 		return (false);
 	if ((month == 4 || month == 6 || month == 9 || month == 11) && day > 30)
 		return (false);
-/* 	bool isLeapYear;
+	bool isLeapYear = false;
 	if (year % 4 == 0 && (year % 100 != 0) && year % 400 != 0)
-		isLeapYear = true; */
+		isLeapYear = true;
+	if (month == 2 && day > 28 && isLeapYear == false)
+		return (false);
+	if (month == 2 && day > 29 && isLeapYear == true)
+		return (false);
 	return (true);
 }
 
