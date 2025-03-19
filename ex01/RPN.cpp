@@ -6,11 +6,12 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 16:45:01 by juitz             #+#    #+#             */
-/*   Updated: 2025/03/18 14:37:21 by juitz            ###   ########.fr       */
+/*   Updated: 2025/03/19 17:30:16 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RPN.hpp"
+#include <stdexcept>
 
 RPN::RPN()
 {
@@ -68,9 +69,9 @@ void RPN::num_to_stack(const std::string &input)
 		{
 			if (token.size() == 2)
 			{
-				(std::cerr << "Not enough operands for amount of operators" << std::endl, 1);
-				return ;
+				throw std::runtime_error("Not enough operands for amount of operators");
 			}
+			
 		}
 }
 void RPN::parse_input(const std::string &input)
