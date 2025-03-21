@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 16:45:01 by juitz             #+#    #+#             */
-/*   Updated: 2025/03/19 17:30:16 by juitz            ###   ########.fr       */
+/*   Updated: 2025/03/21 16:42:29 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,40 @@ void RPN::num_to_stack(const std::string &input)
 		}
 		else if (token.size() == 1 && token[0] == '+' || token[0] == '-' || token[0] == '/' || token[0] == '*')
 		{
-			if (token.size() == 2)
+			if (token.size() < 2)
 			{
 				throw std::runtime_error("Not enough operands for amount of operators");
 			}
+
+			int b = _stack.top();
+			_stack.pop();
+			int a = _stack.top();
 			
+			switch (token[0])
+			{
+				case '+':
+					_stack.push(a + b);
+					break;
+				case '-':
+					_stack.push(a - b);
+					break;
+				case '*':
+					_stack.push(a * b);
+					break;
+				case '/':
+					if (b == 0)
+						throw std::runtime_error("Error: Can't divide by 0");
+					_stack.push(a / b);
+					break;
+			}
 		}
+		else
+		{
+			throw std::runtime_error("Error: invalid token: " + token);
+		}
+	}
 }
+		
 void RPN::parse_input(const std::string &input)
 {
 	
