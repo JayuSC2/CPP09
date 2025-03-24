@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 16:40:39 by juitz             #+#    #+#             */
-/*   Updated: 2025/03/18 14:28:13 by juitz            ###   ########.fr       */
+/*   Updated: 2025/03/24 15:37:12 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 #include <iostream>
 #include <sstream>
 #include <stack>
+#include <climits>
 
 class RPN
 {
 	private:
-		std::string rawInput;
+		//std::string rawInput;
 		std::stack<int> _stack;
+		bool _error;
 	public:
 		RPN();
 		RPN(std::stack<int> &stack);
@@ -35,7 +37,8 @@ class RPN
 		void parse_input(const std::string &input);
 		int calculate(const std::string &input);
 
-		const std::string getRawInput() const;
-		void setRawInput(const std::string &input);
+		bool getError() const;
+	/* 	const std::string getRawInput() const;
+		void setRawInput(const std::string &input); */
 		//std::stack getStack() const;
 };

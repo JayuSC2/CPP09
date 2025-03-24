@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 16:45:01 by juitz             #+#    #+#             */
-/*   Updated: 2025/03/24 12:54:09 by juitz            ###   ########.fr       */
+/*   Updated: 2025/03/24 15:40:22 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ RPN::RPN()
 	std::cout << "RPN default constructor called" << std::endl;
 }
 
-RPN::RPN(std::stack<int> &stack) : _stack(stack)
+RPN::RPN(std::stack<int> &stack) : _stack(stack), _error(false)
 {
 	std::cout << "RPN parameterized constructor called" << std::endl;
 }
@@ -44,6 +44,11 @@ RPN::~RPN()
 	std::cout << "RPN default destructor called" << std::endl;
 }
 
+bool RPN::getError() const
+{
+	return (this->_error);
+}
+/* 
 const std::string RPN::getRawInput() const
 {
 	return (this->rawInput);
@@ -52,7 +57,7 @@ const std::string RPN::getRawInput() const
 void RPN::setRawInput(const std::string &input)
 {
 	this->rawInput = input;
-}
+} */
 
 void RPN::num_to_stack(const std::string &input)
 {
@@ -81,19 +86,32 @@ void RPN::num_to_stack(const std::string &input)
 			switch (token[0])
 			{
 				case '+':
-					_stack.push(a + b);
-					break;
-				case '-':
-					_stack.push(a - b);
-					break;
-				case '*':
-					_stack.push(a * b);
-					break;
-				case '/':
-					if (b == 0)
-						throw std::runtime_error("Error: Can't divide by 0");
-					_stack.push(a / b);
-					break;
+				if ((a > 0 && b > INT_MAX - a) || (a < 0 && b < INT_MIN - a))
+					throw std::runtime_error("Error: integer overflow in addition");
+				_stack.push(a + b);
+				break;
+			case '-':
+				if ((b > 0 && a < INT_MIN + b) || (b < 0 && a > INT_MAX + b))
+					throw std::runtime_error("Error: integer overflow in subtraction");
+				_stack.push(a - b);
+				break;
+			case '*':
+				if (a != 0 && b != 0) {
+					if ((a > 0 && b > 0 && a > INT_MAX / b) ||
+						(a > 0 && b < 0 && b < INT_MIN / a) ||
+						(a < 0 && b > 0 && a < INT_MIN / b) ||
+						(a < 0 && b < 0 && a < INT_MAX / b))
+						throw std::runtime_error("Error: integer overflow in multiplication");
+				}
+				_stack.push(a * b);
+				break;
+			case '/':
+				if (b == 0)
+					throw std::runtime_error("Error: Can't divide by 0");
+				if (a == INT_MIN && b == -1)
+					throw std::runtime_error("Error: integer overflow in division");
+				_stack.push(a / b);
+				break;
 			}
 		}
 		else
@@ -113,12 +131,13 @@ int RPN::calculate(const std::string &input)
 		num_to_stack(input);
 
 		if (_stack.size() != 1)
-			throw std::runtime_error("Error: Invalid input");
+			throw std::runtime_error("Error: too many operands before operator");
 		return (_stack.top());
 	}
 	catch (const std::exception &e)
 	{
 		std::cerr << e.what() << std::endl;
+		_error = true;
 		return (1);
 	}
 }
