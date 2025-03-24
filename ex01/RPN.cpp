@@ -6,11 +6,12 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 16:45:01 by juitz             #+#    #+#             */
-/*   Updated: 2025/03/21 16:42:29 by juitz            ###   ########.fr       */
+/*   Updated: 2025/03/24 12:54:09 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RPN.hpp"
+#include <exception>
 #include <stdexcept>
 
 RPN::RPN()
@@ -65,16 +66,17 @@ void RPN::num_to_stack(const std::string &input)
 			int num = token[0] - '0';
 			_stack.push(num);
 		}
-		else if (token.size() == 1 && token[0] == '+' || token[0] == '-' || token[0] == '/' || token[0] == '*')
+		else if (token.size() == 1 && (token[0] == '+' || token[0] == '-' || token[0] == '/' || token[0] == '*'))
 		{
-			if (token.size() < 2)
+			if (_stack.size() < 2)
 			{
-				throw std::runtime_error("Not enough operands for amount of operators");
+				throw std::runtime_error("Error: not enough operands for operator");
 			}
 
 			int b = _stack.top();
 			_stack.pop();
 			int a = _stack.top();
+			_stack.pop();
 			
 			switch (token[0])
 			{
@@ -100,14 +102,23 @@ void RPN::num_to_stack(const std::string &input)
 		}
 	}
 }
-		
-void RPN::parse_input(const std::string &input)
-{
-	
-}
 
 int RPN::calculate(const std::string &input)
 {
-	int result;
+	while (!_stack.empty())
+		_stack.pop();
 	
+	try
+	{
+		num_to_stack(input);
+
+		if (_stack.size() != 1)
+			throw std::runtime_error("Error: Invalid input");
+		return (_stack.top());
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+		return (1);
+	}
 }

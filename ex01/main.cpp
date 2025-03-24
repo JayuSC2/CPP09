@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 18:12:38 by codespace         #+#    #+#             */
-/*   Updated: 2025/03/18 14:18:59 by juitz            ###   ########.fr       */
+/*   Updated: 2025/03/24 12:58:16 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ int main(int argc, char **argv)
 		return (1);
 	}
 	RPN rpn;
-	rpn.setRawInput(argv[1]);
-	std::cout << rpn.getRawInput() << std::endl;
+	int result;
+	//rpn.setRawInput(argv[1]);
+	result = rpn.calculate(argv[1]);
+	std::cout << result << std::endl;
 	return (0);
 }
