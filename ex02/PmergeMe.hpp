@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:55:27 by juitz             #+#    #+#             */
-/*   Updated: 2025/03/25 15:59:26 by juitz            ###   ########.fr       */
+/*   Updated: 2025/03/30 15:49:35 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,17 @@
 #include <sstream>
 #include <climits>
 #include <array>
+#include <vector>
 
 class PmergeMe
 {
 	private:
 		//std::string rawInput;
-		std::array<int> _vector;
+		std::vector<int> _vector;
 		bool _error;
 	public:
 		PmergeMe();
-		PmergeMe(std::stack<int> &stack);
+		PmergeMe(std::vector<int> &stack);
 		~PmergeMe();
         PmergeMe(const PmergeMe &other);
         PmergeMe &operator=(const PmergeMe &other);
@@ -33,9 +34,9 @@ class PmergeMe
 		PmergeMe operator*(const PmergeMe &other) const;
 		PmergeMe operator/(const PmergeMe &other) const;
 
-		void num_to_stack(const std::string &input);
+		void sort_pairs(const std::vector<int>);
+		void num_to_vector(const std::string &input);
 		void parse_input(const std::string &input);
-		int calculate(const std::string &input);
 
 		bool getError() const;
 	/* 	const std::string getRawInput() const;
