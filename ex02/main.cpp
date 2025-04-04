@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:54:41 by juitz             #+#    #+#             */
-/*   Updated: 2025/03/30 18:07:04 by juitz            ###   ########.fr       */
+/*   Updated: 2025/04/01 16:35:30 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void isPresent(std::vector<int> &arr, int val)
 }
 
 int main(void)
+
+/* int main(void)
 {
 	std::cout << Jacobsthal(12) << std::endl;
     std::vector<int> arr;
@@ -56,4 +58,4 @@ int main(void)
     isPresent(arr, val2);
 
     return (0);
-}
+} */
