@@ -6,11 +6,27 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:54:41 by juitz             #+#    #+#             */
-/*   Updated: 2025/04/01 16:35:30 by juitz            ###   ########.fr       */
+/*   Updated: 2025/04/14 17:21:59 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <bits/stdc++.h>
+#include "PmergeMe.hpp"
+
+int main(int argc, char **argv)
+{
+	if (argc < 2)
+    {
+        std::cerr << "Error: No arguments provided" << std::endl;
+        std::cerr << "Usage: ./PmergeMe [positive integers...]" << std::endl;
+        return (1);
+    }
+	if (argc > 3000)
+		return (std::cerr << "Error: too many arguments" << std::endl, 1);
+	PmergeMe sort;
+	sort.parse_input(argc, argv)
+}
+
+/* #include <bits/stdc++.h>
 
 int Jacobsthal(int n)
 {
@@ -36,7 +52,7 @@ void isPresent(std::vector<int> &arr, int val)
 
 int main(void)
 
-/* int main(void)
+int main(void)
 {
 	std::cout << Jacobsthal(12) << std::endl;
     std::vector<int> arr;

@@ -6,11 +6,13 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/04/04 17:26:26 by juitz            ###   ########.fr       */
+/*   Updated: 2025/04/14 17:22:03 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
+#include <istream>
+#include <vector>
 
 PmergeMe::PmergeMe() : _vector(0)
 {
@@ -35,4 +37,9 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &other)
 	if (this != &other)
 		this->_maxCount = other._maxCount;
 	return (*this);
+}
+
+std::vector<int> parse_input(int argc, char **argv);
+{
+	
 }
