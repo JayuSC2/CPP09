@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/04/15 18:21:05 by juitz            ###   ########.fr       */
+/*   Updated: 2025/04/15 18:43:14 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,15 @@ std::vector<PmergeMe::IntPair> PmergeMe::make_pairs(const std::vector<int>& inpu
     for (size_t i = 0; i < input.size() - 1; i += 2)
     {
         if (input[i] > input[i + 1])
+		{
             pairs.push_back(std::make_pair(input[i], input[i + 1]));
+			_operationCounter += 1;
+		}
         else
+		{
             pairs.push_back(std::make_pair(input[i + 1], input[i]));
+			_operationCounter += 1;
+		}
     }
 	if (_vector.size() % 2 != 0)
 		_unpaired = _vector[_vector.size() - 1];

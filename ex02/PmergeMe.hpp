@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:55:27 by juitz             #+#    #+#             */
-/*   Updated: 2025/04/15 18:20:44 by juitz            ###   ########.fr       */
+/*   Updated: 2025/04/15 18:34:35 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ class PmergeMe
 		//std::string rawInput;
 		std::vector<int> _vector;
 		unsigned int _unpaired;
-		unsigned int _maxCount;
+		unsigned int _operationCounter;
 	public:
 		PmergeMe();
 		explicit PmergeMe(std::vector<int> vector);
