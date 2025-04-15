@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:54:41 by juitz             #+#    #+#             */
-/*   Updated: 2025/04/14 17:21:59 by juitz            ###   ########.fr       */
+/*   Updated: 2025/04/15 15:09:54 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,15 @@ int main(int argc, char **argv)
 	if (argc > 3000)
 		return (std::cerr << "Error: too many arguments" << std::endl, 1);
 	PmergeMe sort;
-	sort.parse_input(argc, argv)
+	//std::vector<int> numbers;
+	if (sort.parse_input(argc, argv) == 0)
+	{
+		for (int i = 0; i < argc - 1; i++)
+		{
+			std::cout << sort.getVector()[i] << std::endl;
+		}
+	}
+	return (0);
 }
 
 /* #include <bits/stdc++.h>
