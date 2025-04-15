@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:55:27 by juitz             #+#    #+#             */
-/*   Updated: 2025/04/15 15:08:38 by juitz            ###   ########.fr       */
+/*   Updated: 2025/04/15 18:20:44 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ class PmergeMe
 	private:
 		//std::string rawInput;
 		std::vector<int> _vector;
+		unsigned int _unpaired;
 		unsigned int _maxCount;
 	public:
 		PmergeMe();
@@ -37,9 +38,13 @@ class PmergeMe
 		
 		const std::vector<int>& getVector() const;
 
-		void make_pairs(const std::vector<int>);
-		void sort_pairs(const std::vector<int>);
 		int parse_input(int argc, char **argv);
+		typedef std::pair<int, int> IntPair;
+		std::vector<IntPair> make_pairs(const std::vector<int>& input);
+		void sort_pairs(std::vector<IntPair>& pairs);
+		void sorter();
+		void make_pairs();
+		void sort_pairs(const std::vector<int>);
 
 		bool getError() const;
 	/* 	const std::string getRawInput() const;

@@ -6,11 +6,12 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/04/15 15:08:57 by juitz            ###   ########.fr       */
+/*   Updated: 2025/04/15 18:21:05 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
+#include <algorithm>
 
 
 PmergeMe::PmergeMe() : _vector(0)
@@ -64,4 +65,31 @@ int	PmergeMe::parse_input(int argc, char **argv)
 	return (0);
 }
 
+std::vector<PmergeMe::IntPair> PmergeMe::make_pairs(const std::vector<int>& input)
+{
+    std::vector<IntPair> pairs;
+    
+    for (size_t i = 0; i < input.size() - 1; i += 2)
+    {
+        if (input[i] > input[i + 1])
+            pairs.push_back(std::make_pair(input[i], input[i + 1]));
+        else
+            pairs.push_back(std::make_pair(input[i + 1], input[i]));
+    }
+	if (_vector.size() % 2 != 0)
+		_unpaired = _vector[_vector.size() - 1];
+	else
+		_unpaired = 0;
+    return (pairs);
+}
+
+void PmergeMe::sort_pairs(std::vector<IntPair>& pairs)
+{
+    std::sort(pairs.begin(), pairs.end());
+}
+
+void PmergeMe::sorter()
+{
+	for (int i, i <)
+}
 

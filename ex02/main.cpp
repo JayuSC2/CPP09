@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:54:41 by juitz             #+#    #+#             */
-/*   Updated: 2025/04/15 15:09:54 by juitz            ###   ########.fr       */
+/*   Updated: 2025/04/15 17:22:13 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int main(int argc, char **argv)
 			std::cout << sort.getVector()[i] << std::endl;
 		}
 	}
+	sort.make_pairs();
 	return (0);
 }
 
