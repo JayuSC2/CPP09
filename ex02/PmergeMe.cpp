@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/04/15 18:43:14 by juitz            ###   ########.fr       */
+/*   Updated: 2025/04/15 18:45:19 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ PmergeMe::~PmergeMe()
 
 PmergeMe::PmergeMe(const PmergeMe &copy)
 {
-	this->_maxCount = copy._maxCount;
+	this->_vector = copy._vector;
+	this->_unpaired = copy._unpaired;
+	this->_operationCounter = copy._operationCounter;
 }
 
 PmergeMe &PmergeMe::operator=(const PmergeMe &other)
@@ -37,7 +39,8 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &other)
 	if (this != &other)
 	{
 		this->_vector = other._vector;
-		this->_maxCount = other._maxCount;
+		this->_unpaired = other._unpaired;
+		this->_operationCounter = other._operationCounter;
 	}
 	return (*this);
 }
