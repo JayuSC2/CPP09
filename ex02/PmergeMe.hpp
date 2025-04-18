@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:55:27 by juitz             #+#    #+#             */
-/*   Updated: 2025/04/15 18:34:35 by juitz            ###   ########.fr       */
+/*   Updated: 2025/04/18 14:10:48 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,22 @@ class PmergeMe
 		PmergeMe operator*(const PmergeMe &other) const;
 		PmergeMe operator/(const PmergeMe &other) const; */
 		
-		const std::vector<int>& getVector() const;
+		const std::vector<int>& get_vector() const;
+		const unsigned int& get_operations() const;
 
 		int parse_input(int argc, char **argv);
 		typedef std::pair<int, int> IntPair;
-		std::vector<IntPair> make_pairs(const std::vector<int>& input);
+		std::vector<PmergeMe::IntPair> make_pairs(const std::vector<int>& input);
 		void sort_pairs(std::vector<IntPair>& pairs);
+		void ford_johnson_sort(std::vector<int>& arr);
 		void sorter();
-		void make_pairs();
-		void sort_pairs(const std::vector<int>);
+		//void make_pairs();
+		//void sort_pairs(const std::vector<int>);
 
 		bool getError() const;
 	/* 	const std::string getRawInput() const;
 		void setRawInput(const std::string &input); */
 		//std::stack getStack() const;
 };
+
+std::ostream& operator<<(std::ostream& os, const std::pair<int, int>& pair);

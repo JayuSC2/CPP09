@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/04/15 18:45:19 by juitz            ###   ########.fr       */
+/*   Updated: 2025/04/18 14:12:32 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <algorithm>
 
 
-PmergeMe::PmergeMe() : _vector(0)
+PmergeMe::PmergeMe() : _vector(0), _unpaired(0), _operationCounter(0)
 {
 }
 
@@ -45,9 +45,14 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &other)
 	return (*this);
 }
 
-const std::vector<int>& PmergeMe::getVector() const
+const std::vector<int>& PmergeMe::get_vector() const
 {
-    return _vector;
+    return (_vector);
+}
+
+const unsigned int& PmergeMe::get_operations() const
+{
+	return (_operationCounter);
 }
 
 int	PmergeMe::parse_input(int argc, char **argv)
@@ -87,8 +92,7 @@ std::vector<PmergeMe::IntPair> PmergeMe::make_pairs(const std::vector<int>& inpu
     }
 	if (_vector.size() % 2 != 0)
 		_unpaired = _vector[_vector.size() - 1];
-	else
-		_unpaired = 0;
+	std::cout << "Number of pairs: " << pairs.size() << std::endl;
     return (pairs);
 }
 
@@ -97,8 +101,32 @@ void PmergeMe::sort_pairs(std::vector<IntPair>& pairs)
     std::sort(pairs.begin(), pairs.end());
 }
 
+void PmergeMe::ford_johnson_sort(std::vector<int>& arr)
+{
+	if (arr.size() <= 1)
+		return ;
+	
+	std::vector<IntPair> pairs = make_pairs(arr);
+	
+	std::vector<int> larger_elements;
+	for (size_t i = 0; i < pairs.size(); i++)
+	{
+		larger_elements.push_back(pairs[i].first);
+		_operationCounter++;
+	}
+	ford_johnson_sort(larger_elements);
+}
+
 void PmergeMe::sorter()
 {
-	for (int i, i <)
+    std::vector<int> working_copy = _vector;
+     _operationCounter = 0;
+    //ford_johnson_sort(working_copy);
+    _vector = working_copy;
+}
+std::ostream& operator<<(std::ostream& os, const std::pair<int, int>& pair)
+{
+	os << "(" << pair.first << ", " << pair.second << ")";
+	return (os);
 }
 

@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:54:41 by juitz             #+#    #+#             */
-/*   Updated: 2025/04/15 17:22:13 by juitz            ###   ########.fr       */
+/*   Updated: 2025/04/18 14:12:40 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,29 @@ int main(int argc, char **argv)
 		return (std::cerr << "Error: too many arguments" << std::endl, 1);
 	PmergeMe sort;
 	//std::vector<int> numbers;
-	if (sort.parse_input(argc, argv) == 0)
-	{
+	if (sort.parse_input(argc, argv) != 0)
+		return (1);
+/* 	{
 		for (int i = 0; i < argc - 1; i++)
 		{
-			std::cout << sort.getVector()[i] << std::endl;
+			std::cout << sort.get_vector()[i] << std::endl;
 		}
+	} */
+	clock_t start = clock();
+	//sort.sorter();
+	clock_t end = clock();
+	double elapsed = double(end - start) / CLOCKS_PER_SEC * 1000000;
+	std::vector<PmergeMe::IntPair> pairs;
+	pairs = sort.make_pairs(sort.get_vector());
+	sort.sort_pairs(pairs);
+	std::cout << "Elapsed time in ms: " << elapsed << std::endl;
+	std::cout << "Number of comparisons: " << sort.get_operations() << std::endl;
+
+	for (int i = 0; i < argc - 1; i++)
+	{
+		std::cout << pairs[i] << std::endl;
 	}
-	sort.make_pairs();
+
 	return (0);
 }
 
