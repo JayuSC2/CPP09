@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/04/18 14:12:32 by juitz            ###   ########.fr       */
+/*   Updated: 2025/04/18 14:23:34 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void PmergeMe::sorter()
 {
     std::vector<int> working_copy = _vector;
      _operationCounter = 0;
-    //ford_johnson_sort(working_copy);
+    ford_johnson_sort(working_copy);
     _vector = working_copy;
 }
 std::ostream& operator<<(std::ostream& os, const std::pair<int, int>& pair)

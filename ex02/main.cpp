@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:54:41 by juitz             #+#    #+#             */
-/*   Updated: 2025/04/18 14:12:40 by juitz            ###   ########.fr       */
+/*   Updated: 2025/04/18 14:22:23 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int main(int argc, char **argv)
 	std::cout << "Elapsed time in ms: " << elapsed << std::endl;
 	std::cout << "Number of comparisons: " << sort.get_operations() << std::endl;
 
-	for (int i = 0; i < argc - 1; i++)
+	for (size_t i = 0; i < pairs.size(); i++)
 	{
 		std::cout << pairs[i] << std::endl;
 	}
