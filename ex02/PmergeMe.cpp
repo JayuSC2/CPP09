@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/04/23 12:41:08 by juitz            ###   ########.fr       */
+/*   Updated: 2025/04/23 18:12:48 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,37 @@ unsigned int PmergeMe::jacobsthal(unsigned int n)
 	for (unsigned int i = 2; i <= n; i++)
 		j[i] = j[i - 1] + j[i - 2] * 2;
 	return (j[n]);
+}
+
+std::vector<unsigned int> PmergeMe::jacobsthal_sequence(unsigned int n)
+{
+    std::vector<unsigned int> sequence;
+    
+    sequence.push_back(1);
+    
+    unsigned int index = 2;
+    unsigned int j_index = 2;
+    unsigned int j_val = jacobsthal(j_index);
+    
+    while (index < n)
+    {
+        if (j_val <= n)
+            sequence.push_back(j_val);
+        
+        for (int k = j_val - 1; k > jacobsthal(j_index - 1) && index < n; k--)
+        {
+            if (k <= n)
+            {
+                sequence.push_back(k);
+                index++;
+            }
+        }
+        
+        j_index++;
+        j_val = jacobsthal(j_index);
+        index++;
+    }
+    return (sequence);
 }
 /*     if (n == 0)
 		return (0);
