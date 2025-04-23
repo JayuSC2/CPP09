@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:55:27 by juitz             #+#    #+#             */
-/*   Updated: 2025/04/18 14:10:48 by juitz            ###   ########.fr       */
+/*   Updated: 2025/04/23 12:44:29 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <climits>
 #include <vector>
 #include <cstdio>
+#include <cstdlib>
 class PmergeMe
 {
 	private:
@@ -43,6 +44,7 @@ class PmergeMe
 		typedef std::pair<int, int> IntPair;
 		std::vector<PmergeMe::IntPair> make_pairs(const std::vector<int>& input);
 		void sort_pairs(std::vector<IntPair>& pairs);
+		unsigned int jacobsthal(unsigned int n);
 		void ford_johnson_sort(std::vector<int>& arr);
 		void sorter();
 		//void make_pairs();

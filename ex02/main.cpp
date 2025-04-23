@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:54:41 by juitz             #+#    #+#             */
-/*   Updated: 2025/04/18 14:22:23 by juitz            ###   ########.fr       */
+/*   Updated: 2025/04/23 12:44:05 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,55 +14,53 @@
 
 int main(int argc, char **argv)
 {
-	if (argc < 2)
-    {
-        std::cerr << "Error: No arguments provided" << std::endl;
-        std::cerr << "Usage: ./PmergeMe [positive integers...]" << std::endl;
-        return (1);
-    }
-	if (argc > 3000)
-		return (std::cerr << "Error: too many arguments" << std::endl, 1);
-	PmergeMe sort;
-	//std::vector<int> numbers;
-	if (sort.parse_input(argc, argv) != 0)
-		return (1);
-/* 	{
-		for (int i = 0; i < argc - 1; i++)
-		{
-			std::cout << sort.get_vector()[i] << std::endl;
-		}
-	} */
-	clock_t start = clock();
-	//sort.sorter();
-	clock_t end = clock();
-	double elapsed = double(end - start) / CLOCKS_PER_SEC * 1000000;
-	std::vector<PmergeMe::IntPair> pairs;
-	pairs = sort.make_pairs(sort.get_vector());
-	sort.sort_pairs(pairs);
-	std::cout << "Elapsed time in ms: " << elapsed << std::endl;
-	std::cout << "Number of comparisons: " << sort.get_operations() << std::endl;
-
-	for (size_t i = 0; i < pairs.size(); i++)
-	{
-		std::cout << pairs[i] << std::endl;
-	}
-
+	if (argc != 2)
+		return (std::cout << "incorrect arguments" << std::endl, 1);
+	PmergeMe test;
+	unsigned int jt = test.jacobsthal(atoi(argv[1]));
+	std::cout << "Jacobsthal num: " << jt << std::endl;
 	return (0);
 }
 
+// int main(int argc, char **argv)
+// {
+// 	if (argc < 2)
+//     {
+//         std::cerr << "Error: No arguments provided" << std::endl;
+//         std::cerr << "Usage: ./PmergeMe [positive integers...]" << std::endl;
+//         return (1);
+//     }
+// 	if (argc > 3000)
+// 		return (std::cerr << "Error: too many arguments" << std::endl, 1);
+// 	PmergeMe sort;
+// 	//std::vector<int> numbers;
+// 	if (sort.parse_input(argc, argv) != 0)
+// 		return (1);
+// /* 	{
+// 		for (int i = 0; i < argc - 1; i++)
+// 		{
+// 			std::cout << sort.get_vector()[i] << std::endl;
+// 		}
+// 	} */
+// 	clock_t start = clock();
+// 	//sort.sorter();
+// 	clock_t end = clock();
+// 	double elapsed = double(end - start) / CLOCKS_PER_SEC * 1000000;
+// 	std::vector<PmergeMe::IntPair> pairs;
+// 	pairs = sort.make_pairs(sort.get_vector());
+// 	sort.sort_pairs(pairs);
+// 	std::cout << "Elapsed time in ms: " << elapsed << std::endl;
+// 	std::cout << "Number of comparisons: " << sort.get_operations() << std::endl;
+
+// 	for (size_t i = 0; i < pairs.size(); i++)
+// 	{
+// 		std::cout << pairs[i] << std::endl;
+// 	}
+
+// 	return (0);
+// }
+
 /* #include <bits/stdc++.h>
-
-int Jacobsthal(int n)
-{
-	int j[n + 1];
-
-	j[0] = 0;
-	j[1] = 1;
-
-	for (int i = 2; i <= n; i++)
-		j[i] = j[i - 1] + j[i - 2] * 2;
-	return (j[n]);
-}
 
 void isPresent(std::vector<int> &arr, int val)
 {

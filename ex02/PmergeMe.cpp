@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/04/18 15:43:41 by juitz            ###   ########.fr       */
+/*   Updated: 2025/04/23 12:41:08 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,36 @@ void PmergeMe::sort_pairs(std::vector<IntPair>& pairs)
     std::sort(pairs.begin(), pairs.end());
 }
 
+unsigned int PmergeMe::jacobsthal(unsigned int n)
+{
+	unsigned int j[n + 1];
+
+	j[0] = 0;
+	j[1] = 1;
+
+	for (unsigned int i = 2; i <= n; i++)
+		j[i] = j[i - 1] + j[i - 2] * 2;
+	return (j[n]);
+}
+/*     if (n == 0)
+		return (0);
+    if (n == 1)
+		return 1;
+    
+    unsigned int j_prev = 0;
+    unsigned int j_curr = 1;
+    unsigned int j_next;
+    
+    for (unsigned int i = 2; i <= n; i++)
+    {
+        j_next = j_curr + 2 * j_prev;
+        j_prev = j_curr;
+        j_curr = j_next;
+    }
+    return (j_curr);
+}
+	*/
+
 void PmergeMe::ford_johnson_sort(std::vector<int>& arr)
 {
 	if (arr.size() <= 1)
@@ -116,6 +146,11 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr)
 	}
 	ford_johnson_sort(larger_elements);
 
+	arr.clear();
+    for (size_t i = 0; i < larger_elements.size(); i++) {
+        arr.push_back(larger_elements[i]);
+    }
+	//std::cout << arr
 	
 }
 
