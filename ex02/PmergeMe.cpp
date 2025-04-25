@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/04/23 18:12:48 by juitz            ###   ########.fr       */
+/*   Updated: 2025/04/25 14:53:38 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ std::vector<unsigned int> PmergeMe::jacobsthal_sequence(unsigned int n)
         if (j_val <= n)
             sequence.push_back(j_val);
         
-        for (int k = j_val - 1; k > jacobsthal(j_index - 1) && index < n; k--)
+        for (unsigned int k = j_val - 1; k > jacobsthal(j_index - 1) && index < n; k--)
         {
             if (k <= n)
             {
@@ -136,7 +136,6 @@ std::vector<unsigned int> PmergeMe::jacobsthal_sequence(unsigned int n)
                 index++;
             }
         }
-        
         j_index++;
         j_val = jacobsthal(j_index);
         index++;

@@ -6,19 +6,27 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:54:41 by juitz             #+#    #+#             */
-/*   Updated: 2025/04/23 12:44:05 by juitz            ###   ########.fr       */
+/*   Updated: 2025/04/25 12:46:17 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
+#include <vector>
 
 int main(int argc, char **argv)
 {
-	if (argc != 2)
-		return (std::cout << "incorrect arguments" << std::endl, 1);
+	(void) argv;
+	(void) argc;
+/* 	if (argc != 2)
+		return (std::cout << "incorrect arguments" << std::endl, 1); */
 	PmergeMe test;
-	unsigned int jt = test.jacobsthal(atoi(argv[1]));
-	std::cout << "Jacobsthal num: " << jt << std::endl;
+	/* unsigned int jt = test.jacobsthal(atoi(argv[1]));
+	std::cout << "Jacobsthal num: " << jt << std::endl; */
+	std::vector<unsigned int> jts;
+	unsigned int len = 20;
+	jts = test.jacobsthal_sequence(len);
+	for (unsigned int i = 0; i < len; i++)
+		std::cout << jts[i] << std::endl;
 	return (0);
 }
 
