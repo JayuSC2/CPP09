@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:54:41 by juitz             #+#    #+#             */
-/*   Updated: 2025/05/02 16:14:53 by juitz            ###   ########.fr       */
+/*   Updated: 2025/05/02 16:46:24 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,15 @@ int main(int argc, char **argv)
 	}
 	std::cout << std::endl;
 	clock_t start = clock();
-	//sort.sorter();
-	std::cout << "After: ";
 	std::vector<PmergeMe::IntPair> pairs;
 	pairs = sort.make_pairs(sort.get_vector());
-	sort.sort_pairs(pairs);
+	sort.sort_pairs(pairs);;
+	sort.sorter();
+	std::cout << "After: ";
+	for (int i = 0; i < argc - 1; i++)
+	{
+		std::cout << sort.get_vector()[i] << " ";
+	}
 	clock_t end = clock();
 	double elapsed = double(end - start) / CLOCKS_PER_SEC * 1000;
 	std::cout << "Time to process a range of " << sort.get_vector().size() << " elements with std::vector " << elapsed << " ms" << std::endl;

@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/05/02 16:01:54 by juitz            ###   ########.fr       */
+/*   Updated: 2025/05/02 16:46:50 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ std::vector<PmergeMe::IntPair> PmergeMe::make_pairs(const std::vector<int>& inpu
     }
 	if (_vector.size() % 2 != 0)
 		_unpaired = _vector[_vector.size() - 1];
-	std::cout << "Number of pairs: " << pairs.size() << std::endl;
+	//std::cout << "Number of pairs: " << pairs.size() << std::endl;
     return (pairs);
 }
 
@@ -144,7 +144,7 @@ std::vector<unsigned int> PmergeMe::jacobsthal_sequence(unsigned int n)
     return (sequence);
 }
 
-/* void PmergeMe::ford_johnson_sort(std::vector<int>& arr)
+void PmergeMe::ford_johnson_sort(std::vector<int>& arr)
 {
 	if (arr.size() <= 1)
 		return ;
@@ -163,7 +163,9 @@ std::vector<unsigned int> PmergeMe::jacobsthal_sequence(unsigned int n)
 
 	arr.clear();
     for (size_t i = 0; i < larger_elements.size(); i++)
+	{
         arr.push_back(larger_elements[i]);
+	}
 
 	if (!smaller_elements.empty())
 	{
@@ -174,10 +176,14 @@ std::vector<unsigned int> PmergeMe::jacobsthal_sequence(unsigned int n)
 			std::vector<unsigned int> jseq = jacobsthal_sequence(smaller_elements.size());
 			
 			for (size_t i = 0; i < jseq.size() && i < smaller_elements.size() -1; i++)
-			
-		}
+			{
+				if (jseq[i] < smaller_elements.size())
+					binary_insert(arr, smaller_elements[i], jseq[i]);
+			}
+		} 
 	}
-} */
+	std::cout << std::endl;
+}
 
 void PmergeMe::binary_insert(std::vector<int>& arr, int value, unsigned int upper_bound)
 {
@@ -197,13 +203,13 @@ void PmergeMe::binary_insert(std::vector<int>& arr, int value, unsigned int uppe
 	arr.insert(arr.begin() + left, value);
 }
 
-/* void PmergeMe::sorter()
+void PmergeMe::sorter()
 {
     std::vector<int> working_copy = _vector;
      _operationCounter = 0;
     ford_johnson_sort(working_copy);
     _vector = working_copy;
-} */
+}
 std::ostream& operator<<(std::ostream& os, const std::pair<int, int>& pair)
 {
 	os << "(" << pair.first << ", " << pair.second << ")";
