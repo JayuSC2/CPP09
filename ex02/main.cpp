@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:54:41 by juitz             #+#    #+#             */
-/*   Updated: 2025/05/02 16:46:24 by juitz            ###   ########.fr       */
+/*   Updated: 2025/05/02 17:53:37 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,10 @@ int main(int argc, char **argv)
 		std::cout << sort.get_vector()[i] << " ";
 	}
 	clock_t end = clock();
+	std::cout << std::endl;
 	double elapsed = double(end - start) / CLOCKS_PER_SEC * 1000;
 	std::cout << "Time to process a range of " << sort.get_vector().size() << " elements with std::vector " << elapsed << " ms" << std::endl;
-	//std::cout << "Number of comparisons: " << sort.get_operations() << std::endl;
+	std::cout << "Number of comparisons: " << sort.get_operations() << std::endl;
 	//sort.sorter();
 	/* for (size_t i = 0; i < sort.get_vector().size(); i++)
 		std::cout << sort.get_vector()[i] << std::endl; 
