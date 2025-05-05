@@ -6,15 +6,14 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/05/02 18:04:03 by juitz            ###   ########.fr       */
+/*   Updated: 2025/05/05 15:51:04 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 #include <algorithm>
 #include <vector>
-#include <deque>
-
+#include <vector>
 
 PmergeMe::PmergeMe() : _vector(0), _unpaired(0), _operationCounter(0)
 {
@@ -153,7 +152,7 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr)
 	std::vector<IntPair> pairs = make_pairs(arr);
 	
 	std::vector<int> larger_elements;
-	std::deque<int> smaller_elements;
+	std::vector<int> smaller_elements;
 	for (size_t i = 0; i < pairs.size(); i++)
 	{
 		larger_elements.push_back(pairs[i].first);
@@ -179,13 +178,12 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr)
 			for (size_t i = 0; i < jseq.size() && i < smaller_elements.size() -1; i++)
 			{
 				if (jseq[i] < smaller_elements.size())
-					binary_insert(arr, smaller_elements[i], jseq[i] + 1);
+					binary_insert(arr, smaller_elements[jseq[i]], jseq[i] + 1);
 			}
 		}
 	}
-/* 	if (arr.size() < _vector.size() && _vector.size() % 2 != 0) {
+	if (arr.size() < _vector.size() && _vector.size() % 2 != 0)
         binary_insert(arr, _unpaired, arr.size());
-    } */
 }
 
 void PmergeMe::binary_insert(std::vector<int>& arr, int value, unsigned int upper_bound)

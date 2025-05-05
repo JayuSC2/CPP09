@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 16:40:39 by juitz             #+#    #+#             */
-/*   Updated: 2025/04/14 15:48:56 by juitz            ###   ########.fr       */
+/*   Updated: 2025/05/05 15:49:18 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 class RPN
 {
 	private:
-		//std::string rawInput;
 		std::stack<int, std::list<int> > _stack;
 		bool _error;
 	public:

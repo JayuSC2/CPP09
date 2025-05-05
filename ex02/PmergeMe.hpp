@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:55:27 by juitz             #+#    #+#             */
-/*   Updated: 2025/05/01 16:21:16 by juitz            ###   ########.fr       */
+/*   Updated: 2025/05/05 12:08:45 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,17 @@
 #include <vector>
 #include <cstdio>
 #include <cstdlib>
+#include <deque>
 class PmergeMe
 {
 	private:
 		//std::string rawInput;
 		std::vector<int> _vector;
+		std::deque<int> _deque;
 		unsigned int _unpaired;
 		unsigned int _operationCounter;
+		time_t _vector_time;
+		time_t _deque_time;
 	public:
 		PmergeMe();
 		explicit PmergeMe(std::vector<int> vector);
