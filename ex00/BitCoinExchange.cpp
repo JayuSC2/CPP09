@@ -6,13 +6,12 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:49:12 by juitz             #+#    #+#             */
-/*   Updated: 2025/03/18 12:54:56 by juitz            ###   ########.fr       */
+/*   Updated: 2025/05/06 17:49:48 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitCoinExchange.hpp"
-#include <map>
-#include <string>
+
 
 BitCoinExchange::BitCoinExchange()
 {
@@ -152,6 +151,13 @@ bool BitCoinExchange::is_date_valid(const std::string date)
 		return (false);
 	return (true);
 }
+int findChar(const std::string& str, char c)
+{
+    std::string::const_iterator it = std::find(str.begin(), str.end(), c);
+    if (it != str.end())
+        return (static_cast<int>(it - str.begin()));
+    return (-1);
+}
 
 std::multimap<std::string, double> BitCoinExchange::input_to_map(const std::string &filename)
 {
@@ -172,6 +178,12 @@ std::multimap<std::string, double> BitCoinExchange::input_to_map(const std::stri
 
         if (std::getline(ss, dateStr, '|') && ss >> value)
         {
+			int pipe_pos = findChar(line, '|');
+			if (line[pipe_pos - 1] && line[pipe_pos + 1] != ' ')
+			{
+				std::cout << "Error: bad input => " << line << std::endl;
+				continue ;
+			}
 			dateStr.erase(0, dateStr.find_first_not_of(" \t"));
             dateStr.erase(dateStr.find_last_not_of(" \t") + 1);
             if (value > static_cast<double>(std::numeric_limits<int>::max()))
