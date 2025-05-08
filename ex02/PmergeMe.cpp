@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/05/05 15:51:04 by juitz            ###   ########.fr       */
+/*   Updated: 2025/05/08 18:14:10 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr)
 {
 	if (arr.size() <= 1)
 		return ;
-	
+	static int counter = 0;
 	std::vector<IntPair> pairs = make_pairs(arr);
 	
 	std::vector<int> larger_elements;
@@ -159,7 +159,31 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr)
 		smaller_elements.push_back(pairs[i].second);
 		_operationCounter++;
 	}
+	std::cout << "\nCurrent iteration: " << counter << "\nLarge element vector = {";
+	for (size_t i = 0; i < larger_elements.size(); ++i)
+	{
+		std::cout << larger_elements[i];
+		if (i < larger_elements.size() - 1)
+			std::cout << ", ";
+	}
+	std::cout << "\nCurrent iteration: " << counter << "\nSmall element vector = {";
+	for (size_t i = 0; i < smaller_elements.size(); ++i)
+	{
+		std::cout << smaller_elements[i];
+		if (i < smaller_elements.size() - 1) std::cout << ", ";
+	}
+	std::cout << "}\nPairs = ";
+	for (size_t i = 0; i < pairs.size(); ++i)
+	{
+		std::cout << pairs[i] << " ";
+	}
+	std::cout << std::endl;
+	counter++;
 	ford_johnson_sort(larger_elements);
+/* 	std::cout << "Current large element: " << counter << " " << larger_elements[counter] << std::endl;
+	std::cout << "Current pair : " << counter << " " << pairs[counter] << std::endl; */
+/* 	for (size_t i = 0; i < pairs.size(); i++)
+		std::cout << "pairs: " << pairs[i] << std::endl; */
 
 	arr.clear();
     for (size_t i = 0; i < larger_elements.size(); i++)
