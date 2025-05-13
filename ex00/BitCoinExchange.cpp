@@ -6,11 +6,12 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:49:12 by juitz             #+#    #+#             */
-/*   Updated: 2025/05/06 17:49:48 by juitz            ###   ########.fr       */
+/*   Updated: 2025/05/13 12:42:41 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitCoinExchange.hpp"
+#include <cctype>
 
 
 BitCoinExchange::BitCoinExchange()
@@ -178,6 +179,11 @@ std::multimap<std::string, double> BitCoinExchange::input_to_map(const std::stri
 
         if (std::getline(ss, dateStr, '|') && ss >> value)
         {
+			if (!isdigit(line[0]))
+			{
+				std::cout << "Error: first char can't be space => " << line << std::endl;
+				continue ;
+			}
 			int pipe_pos = findChar(line, '|');
 			if (line[pipe_pos - 1] && line[pipe_pos + 1] != ' ')
 			{
