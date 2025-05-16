@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:55:27 by juitz             #+#    #+#             */
-/*   Updated: 2025/05/05 12:08:45 by juitz            ###   ########.fr       */
+/*   Updated: 2025/05/16 18:32:47 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@
 #include <cstdio>
 #include <cstdlib>
 #include <deque>
+
+struct IntPair
+{
+    int first;
+    int second;
+    size_t original_index;
+};
 class PmergeMe
 {
 	private:
@@ -45,8 +52,8 @@ class PmergeMe
 		const unsigned int& get_operations() const;
 
 		int parse_input(int argc, char **argv);
-		typedef std::pair<int, int> IntPair;
-		std::vector<PmergeMe::IntPair> make_pairs(const std::vector<int>& input);
+		//typedef std::pair<int, int> IntPair;
+		std::vector<IntPair> make_pairs(const std::vector<int>& input);
 		void sort_pairs(std::vector<IntPair>& pairs);
 		unsigned int jacobsthal(unsigned int n);
 		std::vector<unsigned int> jacobsthal_sequence(unsigned int n);

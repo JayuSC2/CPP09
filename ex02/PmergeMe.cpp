@@ -6,13 +6,12 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/05/08 18:14:10 by juitz            ###   ########.fr       */
+/*   Updated: 2025/05/16 18:36:18 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 #include <algorithm>
-#include <vector>
 #include <vector>
 
 PmergeMe::PmergeMe() : _vector(0), _unpaired(0), _operationCounter(0)
@@ -74,7 +73,7 @@ int	PmergeMe::parse_input(int argc, char **argv)
 	return (0);
 }
 
-std::vector<PmergeMe::IntPair> PmergeMe::make_pairs(const std::vector<int>& input)
+/* std::vector<PmergeMe::IntPair> PmergeMe::make_pairs(const std::vector<int>& input)
 {
     std::vector<IntPair> pairs;
     
@@ -95,11 +94,14 @@ std::vector<PmergeMe::IntPair> PmergeMe::make_pairs(const std::vector<int>& inpu
 		_unpaired = _vector[_vector.size() - 1];
 	//std::cout << "Number of pairs: " << pairs.size() << std::endl;
     return (pairs);
-}
+} */
 
 void PmergeMe::sort_pairs(std::vector<IntPair>& pairs)
 {
-    std::sort(pairs.begin(), pairs.end());
+    std::sort(pairs.begin(), pairs.end(), [](const IntPair& a, const IntPair& b) 
+	{
+        return (a.first < b.first);
+    });
 }
 
 unsigned int PmergeMe::jacobsthal(unsigned int n)
@@ -148,7 +150,7 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr)
 {
 	if (arr.size() <= 1)
 		return ;
-	static int counter = 0;
+	//static int counter = 0;
 	std::vector<IntPair> pairs = make_pairs(arr);
 	
 	std::vector<int> larger_elements;
@@ -159,7 +161,7 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr)
 		smaller_elements.push_back(pairs[i].second);
 		_operationCounter++;
 	}
-	std::cout << "\nCurrent iteration: " << counter << "\nLarge element vector = {";
+/* 	std::cout << "\nCurrent iteration: " << counter << "\nLarge element vector = {";
 	for (size_t i = 0; i < larger_elements.size(); ++i)
 	{
 		std::cout << larger_elements[i];
@@ -178,7 +180,7 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr)
 		std::cout << pairs[i] << " ";
 	}
 	std::cout << std::endl;
-	counter++;
+	counter++; */
 	ford_johnson_sort(larger_elements);
 /* 	std::cout << "Current large element: " << counter << " " << larger_elements[counter] << std::endl;
 	std::cout << "Current pair : " << counter << " " << pairs[counter] << std::endl; */

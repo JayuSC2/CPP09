@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:54:41 by juitz             #+#    #+#             */
-/*   Updated: 2025/05/05 12:23:21 by juitz            ###   ########.fr       */
+/*   Updated: 2025/05/16 18:33:26 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ int main(int argc, char **argv)
 	}
 	std::cout << std::endl;
 	clock_t start = clock();
-	std::vector<PmergeMe::IntPair> pairs;
-	pairs = sort.make_pairs(sort.get_vector());
-	sort.sort_pairs(pairs);;
+	std::vector<std::pair<int, int> > pairs;
+	//pairs = sort.make_pairs(sort.get_vector());
+	//sort.sort_pairs(pairs);;
 	sort.sorter();
 	std::cout << "After: ";
 	for (int i = 0; i < argc - 1; i++)
