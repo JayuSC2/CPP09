@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 16:45:01 by juitz             #+#    #+#             */
-/*   Updated: 2025/05/19 14:53:00 by juitz            ###   ########.fr       */
+/*   Updated: 2025/05/19 15:09:44 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,6 @@ bool RPN::getError() const
 {
 	return (this->_error);
 }
-/* 
-const std::string RPN::getRawInput() const
-{
-	return (this->rawInput);
-}
-
-void RPN::setRawInput(const std::string &input)
-{
-	this->rawInput = input;
-} */
 
 void RPN::num_to_stack(const std::string &input)
 {
@@ -67,7 +57,7 @@ void RPN::num_to_stack(const std::string &input)
 	{
 		if (token.size() == 1 && std::isdigit(token[0]))
 		{
-			float num = token[0] - '0';
+			int num = token[0] - '0';
 			_stack.push(num);
 		}
 		else if (token.size() == 1 && (token[0] == '+' || token[0] == '-' || token[0] == '/' || token[0] == '*'))
