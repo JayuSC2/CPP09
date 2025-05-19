@@ -6,20 +6,19 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 16:45:01 by juitz             #+#    #+#             */
-/*   Updated: 2025/04/14 15:48:49 by juitz            ###   ########.fr       */
+/*   Updated: 2025/05/19 14:53:00 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RPN.hpp"
 #include <exception>
-#include <stdexcept>
 
 RPN::RPN()
 {
 	std::cout << "RPN default constructor called" << std::endl;
 }
 
-RPN::RPN(std::stack<int, std::list<int> > &stack) : _stack(stack), _error(false)
+RPN::RPN(std::stack<float, std::list<float> > &stack) : _stack(stack), _error(false)
 {
 	std::cout << "RPN parameterized constructor called" << std::endl;
 }
@@ -68,7 +67,7 @@ void RPN::num_to_stack(const std::string &input)
 	{
 		if (token.size() == 1 && std::isdigit(token[0]))
 		{
-			int num = token[0] - '0';
+			float num = token[0] - '0';
 			_stack.push(num);
 		}
 		else if (token.size() == 1 && (token[0] == '+' || token[0] == '-' || token[0] == '/' || token[0] == '*'))
@@ -78,29 +77,29 @@ void RPN::num_to_stack(const std::string &input)
 				throw std::runtime_error("Error: not enough operands for operator");
 			}
 
-			int b = _stack.top();
+			float b = _stack.top();
 			_stack.pop();
-			int a = _stack.top();
+			float a = _stack.top();
 			_stack.pop();
 			
 			switch (token[0])
 			{
 				case '+':
-				if ((a > 0 && b > INT_MAX - a) || (a < 0 && b < INT_MIN - a))
+				if ((a > 0 && b > (float)INT_MAX - a) || (a < 0 && b < (float)INT_MIN - a))
 					throw std::runtime_error("Error: integer overflow in addition");
 				_stack.push(a + b);
 				break;
 			case '-':
-				if ((b > 0 && a < INT_MIN + b) || (b < 0 && a > INT_MAX + b))
+				if ((b > 0 && a < (float)INT_MIN + b) || (b < 0 && a > (float)INT_MAX + b))
 					throw std::runtime_error("Error: integer overflow in subtraction");
 				_stack.push(a - b);
 				break;
 			case '*':
 				if (a != 0 && b != 0) {
-					if ((a > 0 && b > 0 && a > INT_MAX / b) ||
-						(a > 0 && b < 0 && b < INT_MIN / a) ||
-						(a < 0 && b > 0 && a < INT_MIN / b) ||
-						(a < 0 && b < 0 && a < INT_MAX / b))
+					if ((a > 0 && b > 0 && a > (float)INT_MAX / b) ||
+						(a > 0 && b < 0 && b < (float)INT_MIN / a) ||
+						(a < 0 && b > 0 && a < (float)INT_MIN / b) ||
+						(a < 0 && b < 0 && a < (float)INT_MAX / b))
 						throw std::runtime_error("Error: integer overflow in multiplication");
 				}
 				_stack.push(a * b);
@@ -121,7 +120,7 @@ void RPN::num_to_stack(const std::string &input)
 	}
 }
 
-int RPN::calculate(const std::string &input)
+double RPN::calculate(const std::string &input)
 {
 	while (!_stack.empty())
 		_stack.pop();

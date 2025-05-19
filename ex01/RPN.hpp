@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 16:40:39 by juitz             #+#    #+#             */
-/*   Updated: 2025/05/05 15:49:18 by juitz            ###   ########.fr       */
+/*   Updated: 2025/05/19 14:48:53 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@
 class RPN
 {
 	private:
-		std::stack<int, std::list<int> > _stack;
+		std::stack<float, std::list<float> > _stack;
 		bool _error;
 	public:
 		RPN();
-		RPN(std::stack<int, std::list<int> > &stack);
+		RPN(std::stack<float, std::list<float> > &stack);
 		~RPN();
         RPN(const RPN &other);
         RPN &operator=(const RPN &other);
@@ -35,7 +35,7 @@ class RPN
 
 		void num_to_stack(const std::string &input);
 		void parse_input(const std::string &input);
-		int calculate(const std::string &input);
+		double calculate(const std::string &input);
 
 		bool getError() const;
 	/* 	const std::string getRawInput() const;
