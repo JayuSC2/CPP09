@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 16:57:49 by juitz             #+#    #+#             */
-/*   Updated: 2025/05/06 17:18:43 by juitz            ###   ########.fr       */
+/*   Updated: 2025/05/19 14:43:08 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 #include <string>
 #include <cctype>
 #include <cstdlib>
-#include <map>
-#include <string>
 #include <algorithm>
 
 class BitCoinExchange
