@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/05/19 17:37:33 by juitz            ###   ########.fr       */
+/*   Updated: 2025/05/20 17:51:39 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ std::vector<PmergeMe::IntPair> PmergeMe::make_pairs(const std::vector<int>& inpu
         }
         _operationCounter++;
     }
-
     if (_vector.size() % 2 != 0)
     {
         _unpaired = _vector[_vector.size() - 1];
@@ -98,10 +97,10 @@ std::vector<PmergeMe::IntPair> PmergeMe::make_pairs(const std::vector<int>& inpu
     return (pairs);
 }
 
-void PmergeMe::sort_pairs(std::vector<IntPair>& pairs)
-{
-    std::sort(pairs.begin(), pairs.end());/* , [](const IntPair& a, const IntPair& b)  */
-}
+// void PmergeMe::sort_pairs(std::vector<IntPair>& pairs)
+// {
+//     std::sort(pairs.begin(), pairs.end());/* , [](const IntPair& a, const IntPair& b)  */
+// }
 
 unsigned int PmergeMe::jacobsthal(unsigned int n)
 {
@@ -120,9 +119,8 @@ std::vector<unsigned int> PmergeMe::jacobsthal_sequence(unsigned int n)
     std::vector<unsigned int> sequence;
 
     if (n == 0)
-        return sequence;
+        return (sequence);
 
-    // Add the first two Jacobsthal numbers
     sequence.push_back(1);
 
     unsigned int j_index = 2;
@@ -130,22 +128,18 @@ std::vector<unsigned int> PmergeMe::jacobsthal_sequence(unsigned int n)
 
     while (sequence.size() < n)
     {
-        // Add the current Jacobsthal number if it is within bounds
         if (j_val <= n)
             sequence.push_back(j_val);
 
-    
         unsigned int prev_j_val = jacobsthal(j_index - 1);
         for (unsigned int k = j_val - 1; k > prev_j_val && sequence.size() < n; k--)
         {
             sequence.push_back(k);
         }
-
         j_index++;
         j_val = jacobsthal(j_index);
     }
-
-    return sequence;
+    return (sequence);
 }
 
 /* std::vector<unsigned int> PmergeMe::jacobsthal_sequence(unsigned int n)
