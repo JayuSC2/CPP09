@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/05/23 20:43:10 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/23 20:54:48 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,105 +216,88 @@ std::vector<unsigned int> PmergeMe::jacobsthal_sequence(unsigned int n)
 
 void PmergeMe::ford_johnson_sort(std::vector<int>& arr)
 {
-	if (arr.size() <= 1)
-		return ;
-	//static int counter = 0;
-	std::vector<IntPair> pairs = make_pairs(arr);
-	
-	std::vector<int> larger_elements;
-	std::vector<int> smaller_elements;
-	for (size_t i = 0; i < pairs.size(); i++)
-	{
-		larger_elements.push_back(pairs[i].first);
-		smaller_elements.push_back(pairs[i].second);
-		_operationCounter++;
-	}
-/* 	std::cout << "\nCurrent iteration: " << counter << "\nLarge element vector = {";
-	for (size_t i = 0; i < larger_elements.size(); ++i)
-	{
-		std::cout << larger_elements[i];
-		if (i < larger_elements.size() - 1)
-			std::cout << ", ";
-	}
-	std::cout << "\nCurrent iteration: " << counter << "\nSmall element vector = {";
-	for (size_t i = 0; i < smaller_elements.size(); ++i)
-	{
-		std::cout << smaller_elements[i];
-		if (i < smaller_elements.size() - 1) std::cout << ", ";
-	}
-	std::cout << "}\nPairs = ";
-	for (size_t i = 0; i < pairs.size(); ++i)
-	{
-		std::cout << pairs[i] << " ";
-	}
-	std::cout << std::endl;
-	counter++; */
-	ford_johnson_sort(larger_elements);
-/* 	std::cout << "Current large element: " << counter << " " << larger_elements[counter] << std::endl;
-	std::cout << "Current pair : " << counter << " " << pairs[counter] << std::endl; */
-/* 	for (size_t i = 0; i < pairs.size(); i++)
-		std::cout << "pairs: " << pairs[i] << std::endl; */
+    if (arr.size() <= 1)
+        return;
 
-	arr.clear();
+    std::vector<IntPair> pairs = make_pairs(arr);
+
+    std::vector<int> larger_elements;
+    std::vector<int> smaller_elements;
+    for (size_t i = 0; i < pairs.size(); i++)
+    {
+        larger_elements.push_back(pairs[i].first);
+        smaller_elements.push_back(pairs[i].second);
+        _operationCounter++;
+    }
+
+    ford_johnson_sort(larger_elements);
+
+    arr.clear();
     for (size_t i = 0; i < larger_elements.size(); i++)
-	{
+    {
         arr.push_back(larger_elements[i]);
-	}
+    }
 
-	if (!smaller_elements.empty())
-	{
-		binary_insert(arr, smaller_elements[0], 1);
-		
-		if (smaller_elements.size() > 1)
-		{
-			std::vector<unsigned int> jseq = jacobsthal_sequence(smaller_elements.size());
-			std::vector<bool> inserted(smaller_elements.size(), false);
+    if (!smaller_elements.empty())
+    {
+        binary_insert(arr, smaller_elements[0], 1);
 
-			for (size_t i = 0; i < jseq.size() && i < smaller_elements.size() - 1; i++)
-			{
-				if (jseq[i] < smaller_elements.size() && !inserted[jseq[i]])
-				{
-					binary_insert(arr, smaller_elements[jseq[i]], jseq[i] + 1);
-					inserted[jseq[i]] = true; 
-				}
-		/* 	}
-				std::cout << "Jacobsthal sequence: ";
-				for (size_t i = 0; i < jseq.size(); i++)
-					std::cout << jseq[i] << " ";
+        if (smaller_elements.size() > 1)
+        {
+            std::vector<unsigned int> jseq = jacobsthal_sequence(smaller_elements.size());
+            std::vector<bool> inserted(smaller_elements.size(), false);
+
+            // Insert according to Jacobsthal sequence (skip the first element, already inserted)
+            for (size_t i = 1; i < jseq.size(); i++)
+            {
+                unsigned int idx = jseq[i];
+                if (idx < smaller_elements.size() && !inserted[idx])
+                {
+                    binary_insert(arr, smaller_elements[idx], arr.size());
+                    inserted[idx] = true;
+                }
+				std::cout << "Array after inserting: ";
+				for (size_t i = 0; i < arr.size(); i++)
+					std::cout << arr[i] << " ";
 				std::cout << std::endl;
-
-				std::cout << "Smaller elements: ";
-				for (size_t i = 0; i < smaller_elements.size(); i++)
-					std::cout << smaller_elements[i] << " ";
+            }
+            // Insert any remaining elements not covered by Jacobsthal sequence
+            for (size_t i = 1; i < smaller_elements.size(); i++)
+            {
+                if (!inserted[i])
+                    binary_insert(arr, smaller_elements[i], arr.size());
+				std::cout << "Array after inserting: ";
+				for (size_t i = 0; i < arr.size(); i++)
+					std::cout << arr[i] << " ";
 				std::cout << std::endl;
-			} */
-			}
-		}
-	}
-	if (arr.size() < _vector.size() && _vector.size() % 2 != 0)
+            }
+        }
+    }
+    if (arr.size() < _vector.size() && _vector.size() % 2 != 0)
         binary_insert(arr, _unpaired, arr.size());
 }
 
-void PmergeMe::binary_insert(std::vector<int>& arr, int value, unsigned int upper_bound)
+/* void PmergeMe::binary_insert(std::vector<int>& arr, int value, unsigned int upper_bound)
 {
     unsigned int left = 0;
-    unsigned int right = upper_bound;
+    unsigned int right = std::min(upper_bound, static_cast<unsigned int>(arr.size()));
 
     while (left < right)
     {
         unsigned int mid = left + (right - left) / 2;
         _operationCounter++;
 
-        if (arr[mid] <= value)
+        if (mid < arr.size() && arr[mid] <= value)
             left = mid + 1;
         else
             right = mid;
     }
-    std::cout << "Inserting value: " << value << " at position: " << left << std::endl;
+    // Remove or comment out debug output for production use
+    // std::cout << "Inserting value: " << value << " at position: " << left << std::endl;
     arr.insert(arr.begin() + left, value);
-}
+} */
 
-/* void PmergeMe::binary_insert(std::vector<int>& arr, int value, unsigned int upper_bound)
+void PmergeMe::binary_insert(std::vector<int>& arr, int value, unsigned int upper_bound)
 {
 	unsigned int left = 0;
 	unsigned int right = upper_bound;
@@ -330,7 +313,7 @@ void PmergeMe::binary_insert(std::vector<int>& arr, int value, unsigned int uppe
 		 	right = mid;
 	}
 	arr.insert(arr.begin() + left, value);
-} */
+}
 
 void PmergeMe::sorter()
 {
