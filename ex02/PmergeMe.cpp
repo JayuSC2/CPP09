@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/05/20 17:51:39 by juitz            ###   ########.fr       */
+/*   Updated: 2025/05/23 20:43:10 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,11 +268,26 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr)
 		if (smaller_elements.size() > 1)
 		{
 			std::vector<unsigned int> jseq = jacobsthal_sequence(smaller_elements.size());
-			
-			for (size_t i = 0; i < jseq.size() && i < smaller_elements.size() -1; i++)
+			std::vector<bool> inserted(smaller_elements.size(), false);
+
+			for (size_t i = 0; i < jseq.size() && i < smaller_elements.size() - 1; i++)
 			{
-				if (jseq[i] < smaller_elements.size())
+				if (jseq[i] < smaller_elements.size() && !inserted[jseq[i]])
+				{
 					binary_insert(arr, smaller_elements[jseq[i]], jseq[i] + 1);
+					inserted[jseq[i]] = true; 
+				}
+		/* 	}
+				std::cout << "Jacobsthal sequence: ";
+				for (size_t i = 0; i < jseq.size(); i++)
+					std::cout << jseq[i] << " ";
+				std::cout << std::endl;
+
+				std::cout << "Smaller elements: ";
+				for (size_t i = 0; i < smaller_elements.size(); i++)
+					std::cout << smaller_elements[i] << " ";
+				std::cout << std::endl;
+			} */
 			}
 		}
 	}
