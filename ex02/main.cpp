@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:54:41 by juitz             #+#    #+#             */
-/*   Updated: 2025/05/23 20:38:09 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/24 18:22:35 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int main(int argc, char **argv)
         std::cerr << "Usage: ./PmergeMe [positive integers...]" << std::endl;
         return (1);
     }
-	if (argc > 3000)
+	if (argc > 3001)
 		return (std::cerr << "Error: too many arguments" << std::endl, 1);
 	PmergeMe sort;
 	//std::vector<int> numbers;
