@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/05/24 18:30:30 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/25 17:50:49 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@ int	PmergeMe::parse_input(int argc, char **argv)
 	return (0);
 }
 
-std::vector<PmergeMe::IntPair> PmergeMe::make_pairs(const std::vector<int>& input)
+std::vector<PmergeMe::IntPair> PmergeMe::make_pairs(const std::vector<int>& input, int& unpaired)
 {
     std::vector<IntPair> pairs;
-    
+
     for (size_t i = 0; i < input.size() - 1; i += 2)
     {
         if (input[i] > input[i + 1])
@@ -88,15 +88,15 @@ std::vector<PmergeMe::IntPair> PmergeMe::make_pairs(const std::vector<int>& inpu
             pairs.push_back(std::make_pair(input[i + 1], input[i]));
         }
     }
-	if (input.size() % 2 != 0)
-	{
-		_unpaired = input[input.size() - 1];
-		std::cout << "Unpaired element: " << _unpaired << std::endl;
-	}
-	else
-	{
-		_unpaired = -1;
-	}
+    if (input.size() % 2 != 0)
+    {
+        unpaired = input[input.size() - 1];
+        std::cout << "Unpaired element: " << unpaired << std::endl;
+    }
+    else
+    {
+        unpaired = -1; // No unpaired element
+    }
     return (pairs);
 }
 
@@ -145,12 +145,12 @@ std::vector<unsigned int> PmergeMe::jacobsthal_sequence(unsigned int n)
     return (sequence);
 }
 
-void PmergeMe::ford_johnson_sort(std::vector<int>& arr)
+void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int unpaired = -1)
 {
     if (arr.size() <= 1)
         return;
 
-    std::vector<IntPair> pairs = make_pairs(arr);
+    std::vector<IntPair> pairs = make_pairs(arr, unpaired);
 
     std::vector<int> larger_elements;
     std::vector<int> smaller_elements;
@@ -160,7 +160,7 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr)
         smaller_elements.push_back(pairs[i].second);
     }
 
-    ford_johnson_sort(larger_elements);
+    ford_johnson_sort(larger_elements, unpaired);
 
     arr.clear();
     for (size_t i = 0; i < larger_elements.size(); i++)
@@ -193,34 +193,11 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr)
             }
         }
     }
-   if (arr.size() < _vector.size() && _vector.size() % 2 != 0)
-	{
-		if (std::find(arr.begin(), arr.end(), _unpaired) == arr.end())
-		{
-			binary_insert(arr, _unpaired, arr.size());
-		}
-	}
-}
-
-/* void PmergeMe::binary_insert(std::vector<int>& arr, int value, unsigned int upper_bound)
-{
-    unsigned int left = 0;
-    unsigned int right = std::min(upper_bound, static_cast<unsigned int>(arr.size()));
-
-    while (left < right)
+	if (arr.size() < _vector.size() && _vector.size() % 2 != 0 && unpaired != -1)
     {
-        unsigned int mid = left + (right - left) / 2;
-        _operationCounter++;
-
-        if (mid < arr.size() && arr[mid] <= value)
-            left = mid + 1;
-        else
-            right = mid;
+        binary_insert(arr, unpaired, arr.size());
     }
-    // Remove or comment out debug output for production use
-    // std::cout << "Inserting value: " << value << " at position: " << left << std::endl;
-    arr.insert(arr.begin() + left, value);
-} */
+}
 
 void PmergeMe::binary_insert(std::vector<int>& arr, int value, unsigned int upper_bound)
 {
@@ -242,8 +219,11 @@ void PmergeMe::binary_insert(std::vector<int>& arr, int value, unsigned int uppe
 void PmergeMe::sorter()
 {
     std::vector<int> working_copy = _vector;
-     _operationCounter = 0;
-    ford_johnson_sort(working_copy);
+    _operationCounter = 0;
+
+    int unpaired = -1;
+    ford_johnson_sort(working_copy, unpaired);
+
     _vector = working_copy;
 }
 std::ostream& operator<<(std::ostream& os, const std::pair<int, int>& pair)
