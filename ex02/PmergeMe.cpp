@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/05/27 17:49:12 by juitz            ###   ########.fr       */
+/*   Updated: 2025/05/27 19:30:24 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,20 @@ std::vector<PmergeMe::IntPair> PmergeMe::make_pairs(const std::vector<int>& inpu
 
     for (size_t i = 0; i < input.size() - 1; i += 2)
     {
+        IntPair pair;
         if (input[i] > input[i + 1])
         {
-            pairs.push_back(std::make_pair(input[i], input[i + 1]));
+            pair.first = input[i];
+            pair.second = input[i + 1];
         }
         else
         {
-            pairs.push_back(std::make_pair(input[i + 1], input[i]));
+            pair.first = input[i + 1];
+            pair.second = input[i];
         }
-		_operationCounter++;
+        pair.original_index = i/2;
+        pairs.push_back(pair);
+        _operationCounter++;
     }
     if (input.size() % 2 != 0)
     {
@@ -141,7 +146,7 @@ std::vector<unsigned int> PmergeMe::jacobsthal_sequence(unsigned int n)
     return (sequence);
 }
 
-void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
+/* void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
 {
     if (arr.size() <= 1)
         return;
@@ -151,15 +156,33 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
 
     std::vector<int> larger_elements;
     std::vector<int> smaller_elements;
+	std::vector<size_t> pair_indices;
+	
     for (size_t i = 0; i < pairs.size(); i++)
     {
         larger_elements.push_back(pairs[i].first);
         smaller_elements.push_back(pairs[i].second);
+		pair_indices.push_back(pairs[i].original_index);
     }
 
+	std::vector<int> unsorted_larger = larger_elements;
+	
     int recursive_unpaired = -1;
+	
     ford_johnson_sort(larger_elements, recursive_unpaired);
-
+	
+	std::vector<size_t> original_to_sorted(larger_elements.size());
+    for (size_t i = 0; i < larger_elements.size(); i++)
+	{
+        for (size_t j = 0; j < larger_elements.size(); j++)
+		{
+            if (larger_elements[i] == unsorted_larger[j])
+			{
+                original_to_sorted[j] = i;
+                break ;
+            }
+        }
+    }
     arr.clear();
     std::vector<size_t> larger_positions(larger_elements.size());
     for (size_t i = 0; i < larger_elements.size(); i++)
@@ -179,7 +202,6 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
                 larger_positions[j]++;
             }
         }
-        
         if (smaller_elements.size() > 1)
         {
             std::vector<unsigned int> jseq = jacobsthal_sequence(smaller_elements.size());
@@ -221,9 +243,203 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
         binary_insert(arr, level_unpaired, 0, arr.size());
     }
     unpaired = level_unpaired;
+} */
+
+void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
+{
+    if (arr.size() <= 1)
+        return;
+
+    int level_unpaired = -1;
+    std::vector<IntPair> pairs = make_pairs(arr, level_unpaired);
+
+    std::vector<int> larger_elements;
+    std::vector<int> smaller_elements;
+    
+    for (size_t i = 0; i < pairs.size(); i++)
+    {
+        larger_elements.push_back(pairs[i].first);
+        smaller_elements.push_back(pairs[i].second);
+    }
+
+    std::vector<int> unsorted_larger = larger_elements;
+    
+    int recursive_unpaired = -1;
+    ford_johnson_sort(larger_elements, recursive_unpaired);
+    
+    // Build a map from values to positions for efficient lookups
+    std::vector<size_t> value_to_position(100001, 0); // Assuming max value is 100000
+    for (size_t i = 0; i < larger_elements.size(); i++) {
+        value_to_position[larger_elements[i]] = i;
+    }
+    
+    arr.clear();
+    for (size_t i = 0; i < larger_elements.size(); i++) {
+        arr.push_back(larger_elements[i]);
+    }
+
+    if (!smaller_elements.empty()) {
+        // Insert first smaller element
+        binary_insert(arr, smaller_elements[0], 1);
+        
+        if (smaller_elements.size() > 1) {
+            std::vector<unsigned int> jseq = jacobsthal_sequence(smaller_elements.size());
+            std::vector<bool> inserted(smaller_elements.size(), false);
+            inserted[0] = true;
+            
+            // Process elements according to Jacobsthal sequence
+            for (size_t i = 0; i < jseq.size() && i < smaller_elements.size(); i++) {
+                unsigned int idx = jseq[i];
+                if (idx < smaller_elements.size() && !inserted[idx]) {
+                    // Find where the corresponding larger element is now
+                    int corresponding_larger = unsorted_larger[idx];
+                    size_t larger_pos = value_to_position[corresponding_larger];
+                    
+                    // Insert the smaller element after its larger element
+                    binary_insert(arr, smaller_elements[idx], larger_pos + 1);
+                    
+                    // Update positions for all elements after the insertion point
+                    for (size_t j = 0; j < larger_elements.size(); j++) {
+                        if (value_to_position[larger_elements[j]] >= larger_pos + 1) {
+                            value_to_position[larger_elements[j]]++;
+                        }
+                    }
+                    
+                    inserted[idx] = true;
+                }
+            }
+
+            // Insert any remaining elements
+            for (size_t i = 1; i < smaller_elements.size(); i++) {
+                if (!inserted[i]) {
+                    binary_insert(arr, smaller_elements[i], arr.size());
+                    inserted[i] = true;
+                }
+            }
+        }
+    }
+    
+    // Insert unpaired element if it exists
+    if (level_unpaired != -1) {
+        binary_insert(arr, level_unpaired, arr.size());
+    }
+    
+    unpaired = level_unpaired;
 }
 
-void PmergeMe::binary_insert(std::vector<int>& arr, int value, 
+/* void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
+{
+    if (arr.size() <= 1)
+        return;
+
+    int level_unpaired = -1;
+    std::vector<IntPair> pairs = make_pairs(arr, level_unpaired);
+
+    std::vector<int> larger_elements;
+    std::vector<int> smaller_elements;
+    std::vector<size_t> pair_indices;
+    
+    for (size_t i = 0; i < pairs.size(); i++)
+    {
+        larger_elements.push_back(pairs[i].first);
+        smaller_elements.push_back(pairs[i].second);
+        pair_indices.push_back(pairs[i].original_index);
+    }
+
+    std::vector<int> unsorted_larger = larger_elements;
+    
+    int recursive_unpaired = -1;
+    
+    ford_johnson_sort(larger_elements, recursive_unpaired);
+    
+    // Create a mapping from original unsorted elements to their sorted positions
+    std::vector<size_t> original_to_sorted_positions(larger_elements.size());
+    for (size_t i = 0; i < larger_elements.size(); i++)
+    {
+        for (size_t j = 0; j < unsorted_larger.size(); j++)
+        {
+            if (larger_elements[i] == unsorted_larger[j])
+            {
+                original_to_sorted_positions[j] = i;
+                break ;
+            }
+        }
+    }
+    
+    arr.clear();
+    // Add all larger elements to the result array
+    for (size_t i = 0; i < larger_elements.size(); i++)
+    {
+        arr.push_back(larger_elements[i]);
+    }
+
+    if (!smaller_elements.empty())
+    {
+        // Insert the first smaller element at position 0
+        binary_insert(arr, smaller_elements[0], 1);
+        
+        // Update positions of larger elements after insertion
+        for (size_t i = 0; i < original_to_sorted_positions.size(); i++)
+        {
+            if (original_to_sorted_positions[i] >= 1)
+            {
+                original_to_sorted_positions[i]++;
+            }
+        }
+        
+        if (smaller_elements.size() > 1)
+        {
+            std::vector<unsigned int> jseq = jacobsthal_sequence(smaller_elements.size());
+            std::vector<bool> inserted(smaller_elements.size(), false);
+            inserted[0] = true;
+            
+            // Insert remaining elements according to Jacobsthal sequence
+            for (size_t i = 0; i < jseq.size() && i < smaller_elements.size(); i++)
+            {
+                unsigned int idx = jseq[i];
+                if (idx < smaller_elements.size() && !inserted[idx])
+                {
+                    // Find the position of the corresponding larger element
+                    size_t larger_pos = original_to_sorted_positions[idx];
+                    
+                    // Insert the smaller element
+                    binary_insert(arr, smaller_elements[idx], larger_pos + 1);
+                    
+                    // Update positions of all larger elements after this insertion
+                    for (size_t j = 0; j < original_to_sorted_positions.size(); j++)
+                    {
+                        if (original_to_sorted_positions[j] >= larger_pos + 1)
+                        {
+                            original_to_sorted_positions[j]++;
+                        }
+                    }
+                    
+                    inserted[idx] = true;
+                }
+            }
+
+            // Insert any remaining elements that weren't covered by the Jacobsthal sequence
+            for (size_t i = 1; i < smaller_elements.size(); i++)
+            {
+                if (!inserted[i])
+                {
+                    binary_insert(arr, smaller_elements[i], arr.size());
+                    inserted[i] = true;
+                }
+            }
+        }
+    }
+    
+    // Insert unpaired element if it exists
+    if (level_unpaired != -1)
+    {
+        binary_insert(arr, level_unpaired, arr.size());
+    }
+    
+    unpaired = level_unpaired;
+} */
+
+/* void PmergeMe::binary_insert(std::vector<int>& arr, int value, 
                              unsigned int lower_bound, unsigned int upper_bound)
 {
 	upper_bound = std::min(upper_bound, (unsigned int)arr.size());
@@ -240,7 +456,7 @@ void PmergeMe::binary_insert(std::vector<int>& arr, int value,
             right = mid;
     }
     arr.insert(arr.begin() + left, value);
-}
+} */
 
 /* void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
 {
@@ -396,7 +612,7 @@ void PmergeMe::binary_insert(std::vector<int>& arr, int value,
 	}
 } */
 
-/* void PmergeMe::binary_insert(std::vector<int>& arr, int value, unsigned int upper_bound)
+void PmergeMe::binary_insert(std::vector<int>& arr, int value, unsigned int upper_bound)
 {
 	unsigned int left = 0;
 	unsigned int right = upper_bound;
@@ -411,7 +627,7 @@ void PmergeMe::binary_insert(std::vector<int>& arr, int value,
 		 	right = mid;
 	}
 	arr.insert(arr.begin() + left, value);
-} */
+}
 
 void PmergeMe::sorter()
 {
@@ -423,10 +639,10 @@ void PmergeMe::sorter()
 
     _vector = working_copy;
 }
-std::ostream& operator<<(std::ostream& os, const std::pair<int, int>& pair)
+std::ostream& operator<<(std::ostream& os, const PmergeMe::IntPair& pair)
 {
-	os << "(" << pair.first << ", " << pair.second << ")";
-	return (os);
+    os << "(" << pair.first << ", " << pair.second << ", " << pair.original_index << ")";
+    return (os);
 }
 
 bool PmergeMe::is_sorted() const
@@ -439,8 +655,8 @@ bool PmergeMe::is_sorted() const
         if (_vector[i] > _vector[i + 1])
         {
             std::cout << "Error: Array not sorted at positions " << i 
-                      << " and " << i+1 << ": " << _vector[i] 
-                      << " > " << _vector[i+1] << std::endl;
+                      << " and " << i + 1 << ": " << _vector[i] 
+                      << " > " << _vector[i + 1] << std::endl;
             return (false);
         }
     }
