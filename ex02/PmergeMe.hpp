@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:55:27 by juitz             #+#    #+#             */
-/*   Updated: 2025/05/25 17:47:38 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/26 20:13:48 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ class PmergeMe
 		void sort_pairs(std::vector<IntPair>& pairs);
 		unsigned int jacobsthal(unsigned int n);
 		std::vector<unsigned int> jacobsthal_sequence(unsigned int n);
-		void ford_johnson_sort(std::vector<int>& arr, int unpaired);
+		void ford_johnson_sort(std::vector<int>& arr, int &unpaired);
 		void binary_insert(std::vector<int>& arr, int value, unsigned int upper_bound);
 		void sorter();
 		//void make_pairs();
 		//void sort_pairs(const std::vector<int>);
-
+		bool is_sorted() const;
 		bool getError() const;
 	/* 	const std::string getRawInput() const;
 		void setRawInput(const std::string &input); */

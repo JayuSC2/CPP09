@@ -6,11 +6,12 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:54:41 by juitz             #+#    #+#             */
-/*   Updated: 2025/05/24 18:22:35 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/26 20:11:07 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
+#include <algorithm>
 #include <vector>
 
 // int main(int argc, char **argv)
@@ -72,7 +73,8 @@ int main(int argc, char **argv)
 	{
 		std::cout << pairs[i] << std::endl;
 	} */
-
+	if (sort.is_sorted())
+		std::cout << "Array is sorted" << std::endl;
 	return (0);
 }
 
