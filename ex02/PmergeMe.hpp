@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:55:27 by juitz             #+#    #+#             */
-/*   Updated: 2025/05/26 20:13:48 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/27 14:25:19 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ class PmergeMe
 		unsigned int jacobsthal(unsigned int n);
 		std::vector<unsigned int> jacobsthal_sequence(unsigned int n);
 		void ford_johnson_sort(std::vector<int>& arr, int &unpaired);
-		void binary_insert(std::vector<int>& arr, int value, unsigned int upper_bound);
+		void binary_insert(std::vector<int>& arr, int value, unsigned int lower_bound, unsigned int upper_bound);
 		void sorter();
 		//void make_pairs();
 		//void sort_pairs(const std::vector<int>);
