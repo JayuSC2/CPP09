@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/03 14:57:45 by juitz            ###   ########.fr       */
+/*   Updated: 2025/06/03 16:32:57 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,6 @@ std::vector<PmergeMe::IntPair> PmergeMe::make_pairs(const std::vector<int>& inpu
     return (pairs);
 }
 
-// void PmergeMe::sort_pairs(std::vector<IntPair>& pairs)
-// {
-//     std::sort(pairs.begin(), pairs.end());/* , [](const IntPair& a, const IntPair& b)  */
-// }
-
 unsigned int PmergeMe::jacobsthal(unsigned int n)
 {
 	unsigned int j[n + 1];
@@ -128,7 +123,7 @@ std::vector<unsigned int> PmergeMe::jacobsthal_sequence(unsigned int n)
 	{
         return (sequence);
 	}
-	sequence.push_back(1);
+	sequence.push_back(0);
 
     unsigned int j_index = 3;
     unsigned int j_val = jacobsthal(j_index);
@@ -146,9 +141,6 @@ std::vector<unsigned int> PmergeMe::jacobsthal_sequence(unsigned int n)
         j_index++;
         j_val = jacobsthal(j_index);
     }
-/* 	for (size_t i = 0; i < sequence.size(); i++)
-		std::cout << sequence[i];
-	std::cout << std::endl; */
     return (sequence);
 }
 
@@ -160,7 +152,7 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
     int level_unpaired = -1;
     std::vector<IntPair> pairs = make_pairs(arr, level_unpaired);
 
-    // First, collect all pairs
+    //First, collect all pairs
     std::vector<int> larger_elements;
     std::vector<int> smaller_elements;
     
@@ -170,21 +162,21 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
         smaller_elements.push_back(pairs[i].second);
     }
 
-    // Save a copy of the unsorted larger elements to track positions
+    //Save a copy of the unsorted larger elements to track positions
     std::vector<int> unsorted_larger = larger_elements;
     
-    // Recursively sort the larger elements
+    //Recursively sort the larger elements
     int recursive_unpaired = -1;
     ford_johnson_sort(larger_elements, recursive_unpaired);
     
-    // Clear the result array and add sorted larger elements
+    //Clear the result array and add sorted larger elements
     arr.clear();
     for (size_t i = 0; i < larger_elements.size(); i++)
     {
         arr.push_back(larger_elements[i]);
     }
 
-    // Create a mapping to track which smaller element corresponds to which larger element
+    //Create a mapping to track which smaller element corresponds to which larger element
     std::vector<std::pair<int, int> > element_pairs;
     for (size_t i = 0; i < pairs.size(); i++)
     {
@@ -193,42 +185,43 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
 
     if (!smaller_elements.empty())
     {
-        // Insert the first smaller element
+        //Insert the first smaller element
         int first_larger = larger_elements[0];
         int first_smaller = -1;
         
-        // Find the smaller element that corresponds to the first larger element
+        //Find the smaller element that corresponds to the first larger element
         for (size_t i = 0; i < element_pairs.size(); i++)
         {
             if (element_pairs[i].first == first_larger)
             {
+				_operationCounter++;
                 first_smaller = element_pairs[i].second;
-                break;
+                break ;
             }
         }
         
         if (first_smaller != -1)
         {
-            binary_insert(arr, first_smaller, 0);
+            arr.insert(arr.begin(), first_smaller);
         }
         
-        // Use Jacobsthal sequence for the rest
+        //Use Jacobsthal sequence for the rest
         if (smaller_elements.size() > 1)
         {
             std::vector<unsigned int> jseq = jacobsthal_sequence(smaller_elements.size());
             std::vector<bool> inserted(element_pairs.size(), false);
             
-            // Mark the first element as inserted
+            //Mark the first element as inserted
             for (size_t i = 0; i < element_pairs.size(); i++)
             {
                 if (element_pairs[i].first == first_larger)
                 {
                     inserted[i] = true;
-                    break;
+                    break ;
                 }
             }
             
-            // Insert remaining elements according to Jacobsthal sequence
+            //Insert remaining elements according to Jacobsthal sequence
             for (size_t i = 0; i < jseq.size() && i < element_pairs.size(); i++)
             {
                 unsigned int idx = jseq[i];
@@ -237,12 +230,12 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
                     int current_larger = element_pairs[idx].first;
                     int current_smaller = element_pairs[idx].second;
                     
-                    // Find position of the larger element in the sorted array
+                    //Find position of the larger element in the sorted array
                     size_t pos = 0;
                     for (; pos < arr.size(); pos++)
                     {
                         if (arr[pos] == current_larger)
-                            break;
+                            break ;
                     }
                     
                     if (pos < arr.size())
@@ -254,7 +247,7 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
                 }
             }
             
-            // Insert any remaining elements
+            //Insert any remaining elements
             for (size_t i = 0; i < element_pairs.size(); i++)
             {
                 if (!inserted[i])
@@ -266,7 +259,10 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
                     for (; pos < arr.size(); pos++)
                     {
                         if (arr[pos] == current_larger)
-                            break;
+						{
+							_operationCounter++;
+							 break ;
+						}
                     }
                     
                     if (pos < arr.size())
@@ -278,7 +274,7 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
         }
     }
     
-    // Insert unpaired element if it exists
+    //Insert unpaired element if it exists
     if (level_unpaired != -1)
     {
         binary_insert(arr, level_unpaired, arr.size());
