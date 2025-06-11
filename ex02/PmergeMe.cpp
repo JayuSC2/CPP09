@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/06 17:03:50 by juitz            ###   ########.fr       */
+/*   Updated: 2025/06/08 17:22:41 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -328,7 +328,7 @@ size_t PmergeMe::binary_insert(std::vector<int>& arr, int value, unsigned int up
             right = mid;
     }
     arr.insert(arr.begin() + left, value);
-    return left;  // Return the insertion position
+    return (left);  // Return the insertion position
 }
 
 std::vector<unsigned int> PmergeMe::jacobsthal_sequence(unsigned int n)
@@ -339,12 +339,12 @@ std::vector<unsigned int> PmergeMe::jacobsthal_sequence(unsigned int n)
 	{
         return (sequence);
 	}
-	sequence.push_back(0);
+	sequence.push_back(1);
 
-    unsigned int j_index = 2;
+    unsigned int j_index = 3;
     unsigned int j_val = jacobsthal(j_index);
 
-    while (sequence.size() < n - 1)
+    while (sequence.size() < n - 2)
     {
         if (j_val < n)
             sequence.push_back(j_val);

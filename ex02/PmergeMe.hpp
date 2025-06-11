@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:55:27 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/04 20:10:59 by juitz            ###   ########.fr       */
+/*   Updated: 2025/06/08 16:09:09 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <deque>
+#include <map>
 
 class PmergeMe
 {

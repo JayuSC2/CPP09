@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:54:41 by juitz             #+#    #+#             */
-/*   Updated: 2025/05/26 20:11:07 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/08 17:10:16 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ int main(int argc, char **argv)
 	//std::vector<std::pair<int, int> > pairs;
 	//pairs = sort.make_pairs(sort.get_vector());
 	//sort.sort_pairs(pairs);
+	std::vector<unsigned int> jseq = sort.jacobsthal_sequence(sort.get_vector().size());
+	std::cout << "Jacobsthal sequence: ";
+	for (size_t i = 0; i < jseq.size() - 1; i++)
+		std::cout << jseq[i] << " ";
+	std::cout << std::endl;
 	sort.sorter();
 	std::cout << "After: ";
 	for (int i = 0; i < argc - 1; i++)
