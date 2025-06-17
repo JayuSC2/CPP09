@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 17:09:49 by juitz             #+#    #+#             */
-/*   Updated: 2025/03/08 16:17:45 by juitz            ###   ########.fr       */
+/*   Updated: 2025/06/17 18:42:26 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,15 @@ int main(int argc, char **argv)
     }
     
     BitCoinExchange BCE;
-    BCE.data_to_map("data.csv");
-    BCE.input_to_map(argv[1]);
-    
+	try
+	{
+		BCE.data_to_map("data.csv");
+		BCE.input_to_map(argv[1]);
+	}
+	catch (std::exception &e)
+	{
+		std::cout << "Exception caught: " << e.what() << std::endl;
+	}
     return (0);
 }
 

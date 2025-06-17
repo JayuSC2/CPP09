@@ -6,12 +6,11 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:49:12 by juitz             #+#    #+#             */
-/*   Updated: 2025/05/13 12:42:41 by juitz            ###   ########.fr       */
+/*   Updated: 2025/06/17 18:41:00 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitCoinExchange.hpp"
-#include <cctype>
 
 
 BitCoinExchange::BitCoinExchange()
@@ -54,13 +53,17 @@ const std::multimap<std::string, double>& BitCoinExchange::getInput() const
 	return (_input);
 }
 
+const char* BitCoinExchange::FileDoesntExist::what() const throw()
+{
+   return ("Error: could not open file ");
+}
+
 std::map<std::string, double> BitCoinExchange::data_to_map(const std::string &filename)
 {
 	std::ifstream inFile(filename.c_str());
 	if (!inFile)
 	{
-		std::cout << "Error: could not open file " << filename << std::endl;
-		return (_data);
+		throw FileDoesntExist();
 	}
 	
 	std::string line;
