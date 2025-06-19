@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/19 19:25:00 by juitz            ###   ########.fr       */
+/*   Updated: 2025/06/19 19:47:00 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,6 +244,36 @@ unsigned int PmergeMe::jacobsthal(unsigned int n)
     return sequence;
 } */
 
+
+std::vector<unsigned int> PmergeMe::jacobsthal_sequence_vec(unsigned int n)
+{
+    std::vector<unsigned int> sequence;
+
+    if (n == 0)
+	{
+        return (sequence);
+	}
+	sequence.push_back(1);
+
+    unsigned int j_index = 3;
+    unsigned int j_val = jacobsthal(j_index);
+
+    while (sequence.size() < n - 1)
+    {
+        if (j_val < n)
+            sequence.push_back(j_val);
+
+        unsigned int prev_j_val = jacobsthal(j_index - 1);
+        for (unsigned int k = j_val - 1; k > prev_j_val && sequence.size() < n; k--)
+        {
+            sequence.push_back(k);
+        }
+        j_index++;
+        j_val = jacobsthal(j_index);
+    }
+    return (sequence);
+}
+
 void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
 {
     if (arr.size() <= 1)
@@ -278,7 +308,6 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
         
         for (size_t i = 0; i < pairs.size(); i++)
         {
-            //_operationCounter++;
             if (pairs[i].first == first_larger)
             {
                 first_smaller = pairs[i].second;
@@ -312,7 +341,6 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
                     size_t pos = 0;
                     for (; pos < arr.size(); pos++)
                     {
-                        //_operationCounter++;
                         if (arr[pos] == current_larger)
                             break ;
                     }
@@ -335,7 +363,6 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
                     size_t pos = 0;
                     for (; pos < arr.size(); pos++)
                     {
-                        //_operationCounter++;
                         if (arr[pos] == current_larger)
                             break ;
                     }
@@ -373,36 +400,6 @@ size_t PmergeMe::binary_insert(std::vector<int>& arr, int value, unsigned int up
     arr.insert(arr.begin() + left, value);
     return (left);
 }
-
-std::vector<unsigned int> PmergeMe::jacobsthal_sequence_vec(unsigned int n)
-{
-    std::vector<unsigned int> sequence;
-
-    if (n == 0)
-	{
-        return (sequence);
-	}
-	sequence.push_back(1);
-
-    unsigned int j_index = 3;
-    unsigned int j_val = jacobsthal(j_index);
-
-    while (sequence.size() < n - 1)
-    {
-        if (j_val < n)
-            sequence.push_back(j_val);
-
-        unsigned int prev_j_val = jacobsthal(j_index - 1);
-        for (unsigned int k = j_val - 1; k > prev_j_val && sequence.size() < n; k--)
-        {
-            sequence.push_back(k);
-        }
-        j_index++;
-        j_val = jacobsthal(j_index);
-    }
-    return (sequence);
-}
-
 
 std::deque<unsigned int> PmergeMe::jacobsthal_sequence_dq(unsigned int n)
 {
