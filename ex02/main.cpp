@@ -3,33 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:54:41 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/08 17:10:16 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/19 19:20:38 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
-#include <algorithm>
-#include <vector>
-
-// int main(int argc, char **argv)
-// {
-// 	(void) argv;
-// 	(void) argc;
-// 	if (argc != 2)
-// 		return (std::cout << "incorrect arguments" << std::endl, 1);
-// 	PmergeMe test;
-// 	/* unsigned int jt = test.jacobsthal(atoi(argv[1]));
-// 	std::cout << "Jacobsthal num: " << jt << std::endl; */
-// 	std::vector<unsigned int> jts;
-// 	unsigned int len = 20;
-// 	jts = test.jacobsthal_sequence(len);
-// 	for (unsigned int i = 0; i < len; i++)
-// 		std::cout << jts[i] << std::endl;
-// 	return (0);
-// }
 
 int main(int argc, char **argv)
 {
@@ -42,34 +23,49 @@ int main(int argc, char **argv)
 	if (argc > 3001)
 		return (std::cerr << "Error: too many arguments" << std::endl, 1);
 	PmergeMe sort;
-	//std::vector<int> numbers;
-	if (sort.parse_input(argc, argv) != 0)
+	if (sort.parse_vector(argc, argv) != 0)
 		return (1);
-	std::cout << "Before: ";
+	std::cout << "Vector Before: ";
 	for (int i = 0; i < argc - 1; i++)
 	{
 		std::cout << sort.get_vector()[i] << " ";
+	}
+	std::cout << std::endl;
+	if (sort.parse_deque(argc, argv) != 0)
+		return (1);
+	std::cout << "Deque Before: ";
+	for (int i = 0; i < argc - 1; i++)
+	{
+		std::cout << sort.get_deque()[i] << " ";
 	}
 	std::cout << std::endl;
 	clock_t start = clock();
-	//std::vector<std::pair<int, int> > pairs;
-	//pairs = sort.make_pairs(sort.get_vector());
-	//sort.sort_pairs(pairs);
-	std::vector<unsigned int> jseq = sort.jacobsthal_sequence(sort.get_vector().size());
-	std::cout << "Jacobsthal sequence: ";
-	for (size_t i = 0; i < jseq.size() - 1; i++)
-		std::cout << jseq[i] << " ";
-	std::cout << std::endl;
-	sort.sorter();
-	std::cout << "After: ";
+	// std::vector<unsigned int> jseq = sort.jacobsthal_sequence_vec(sort.get_vector().size());
+	// std::cout << "Jacobsthal sequence: ";
+	// for (size_t i = 0; i < jseq.size() - 1; i++)
+	// 	std::cout << jseq[i] << " ";
+	// std::cout << std::endl;
+	sort.sorter_vec();
+	std::cout << "Vector After: ";
 	for (int i = 0; i < argc - 1; i++)
 	{
 		std::cout << sort.get_vector()[i] << " ";
 	}
+	std::cout << std::endl;
 	clock_t end = clock();
+	clock_t start2 = clock();
+	sort.sorter_dq();
+	std::cout << "Deque After: ";
+	for (int i = 0; i < argc - 1; i++)
+	{
+		std::cout << sort.get_deque()[i] << " ";
+	}
+	clock_t end2 = clock();
 	std::cout << std::endl;
 	double elapsed = double(end - start) / CLOCKS_PER_SEC * 1000;
+	double elapsed2 = double(end2 - start2) / CLOCKS_PER_SEC * 1000;
 	std::cout << "Time to process a range of " << sort.get_vector().size() << " elements with std::vector " << elapsed << " ms" << std::endl;
+	std::cout << "Time to process a range of " << sort.get_deque().size() << " elements with std::deque " << elapsed2 << " ms" << std::endl;
 	std::cout << "Number of comparisons: " << sort.get_operations() << std::endl;
 	//sort.sorter();
 	/* for (size_t i = 0; i < sort.get_vector().size(); i++)

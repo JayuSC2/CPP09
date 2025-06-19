@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:55:27 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/08 16:09:09 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/19 17:49:42 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ class PmergeMe
 	public:
 		struct IntPair 
 		{
-        int first;
-        int second;
-		size_t index;
-        int original_index;
+			int first;
+			int second;
+			size_t index;
+			int original_index;
     	};
 		PmergeMe();
 		explicit PmergeMe(std::vector<int> vector);
@@ -44,18 +44,26 @@ class PmergeMe
         explicit PmergeMe(const PmergeMe &other);
         PmergeMe &operator=(const PmergeMe &other);
 		const std::vector<int>& get_vector() const;
+		const std::deque<int>& get_deque() const;
 		const unsigned int& get_operations() const;
 
-		int parse_input(int argc, char **argv);
+		int	parse_vector(int argc, char **argv);
+		int	parse_deque(int argc, char **argv);
 		//typedef std::pair<int, int> IntPair;
 		std::vector<IntPair> make_pairs(const std::vector<int>& input, int &unpaired);
+		std::deque<IntPair> make_pairs(const std::deque<int>& input, int &unpaired);
 		void sort_pairs(std::vector<IntPair>& pairs);
+		void sort_pairs(std::deque<IntPair>& pairs);
 		unsigned int jacobsthal(unsigned int n);
-		std::vector<unsigned int> jacobsthal_sequence(unsigned int n);
+		std::vector<unsigned int> jacobsthal_sequence_vec(unsigned int n);
+		std::deque<unsigned int> jacobsthal_sequence_dq(unsigned int n);
 		void ford_johnson_sort(std::vector<int>& arr, int &unpaired);
+		void ford_johnson_sort(std::deque<int>& arr, int &unpaired);
 		size_t binary_insert(std::vector<int>& arr, int value, unsigned int upper_bound);
+		size_t binary_insert(std::deque<int>& arr, int value, unsigned int upper_bound);
 		//void binary_insert(std::vector<int>& arr, int value, unsigned int upper_bound);
-		void sorter();
+		void sorter_vec();
+		void sorter_dq();
 		//void make_pairs();
 		//void sort_pairs(const std::vector<int>);
 		bool is_sorted() const;
