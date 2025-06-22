@@ -6,11 +6,12 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:49:12 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/17 18:41:00 by juitz            ###   ########.fr       */
+/*   Updated: 2025/06/22 18:21:10 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitCoinExchange.hpp"
+#include <cctype>
 
 
 BitCoinExchange::BitCoinExchange()
@@ -171,57 +172,57 @@ std::multimap<std::string, double> BitCoinExchange::input_to_map(const std::stri
         std::cout << "Error: could not open file " << filename << std::endl;
         return (_input);
     }
+	std::string line;
+    if (!std::getline(inFile, line))
+	{
+        return (_input); 
+    }
 
-    std::string line;
-    bool firstLine = true;
     while (std::getline(inFile, line))
     {
-        std::istringstream ss(line);
-        std::string dateStr;
-        double value;
-
-        if (std::getline(ss, dateStr, '|') && ss >> value)
-        {
-			if (!isdigit(line[0]))
-			{
-				std::cout << "Error: first char can't be space => " << line << std::endl;
-				continue ;
-			}
-			int pipe_pos = findChar(line, '|');
-			if (line[pipe_pos - 1] && line[pipe_pos + 1] != ' ')
-			{
-				std::cout << "Error: bad input => " << line << std::endl;
-				continue ;
-			}
-			dateStr.erase(0, dateStr.find_first_not_of(" \t"));
-            dateStr.erase(dateStr.find_last_not_of(" \t") + 1);
-            if (value > static_cast<double>(std::numeric_limits<int>::max()))
-            {
-                std::cout << "Error: too large a number." << std::endl;
-                continue ;
-            }
-			if (value < 0)
-			{
-                std::cout << "Error: not a positive number." << std::endl;
-                continue ;
-            }
-			if (!is_date_valid(dateStr) && firstLine == false)
-			{
-				std::cout << "Error: Date not valid." << std::endl;
-				continue ;
-			}
-            _input.insert(std::make_pair(dateStr, static_cast<double>(value)));
-			
-			double exchangeRate = getExchangeRate(dateStr);
-            if (exchangeRate >= 0)
-                std::cout << dateStr << " => " << value << " = " << (value * exchangeRate) << std::endl;
-			
-        }
-        else if (!firstLine)
-        {
+        std::string::size_type pipe_pos = line.find('|');
+        if (pipe_pos == std::string::npos)
+		{
             std::cout << "Error: bad input => " << line << std::endl;
+            continue;
         }
-        firstLine = false;
+
+        std::string dateStr = line.substr(0, pipe_pos);
+        std::string valueStr = line.substr(pipe_pos + 1);
+
+        dateStr.erase(0, dateStr.find_first_not_of(" \t"));
+        dateStr.erase(dateStr.find_last_not_of(" \t") + 1);
+        valueStr.erase(0, valueStr.find_first_not_of(" \t"));
+        valueStr.erase(valueStr.find_last_not_of(" \t") + 1);
+
+        if (!is_date_valid(dateStr))
+		{
+            std::cout << "Error: bad date => " << dateStr << std::endl;
+            continue;
+        }
+
+        char* end;
+        double value = std::strtod(valueStr.c_str(), &end);
+        if (*end != '\0' || valueStr.empty())
+		{
+            std::cout << "Error: value is not a valid number => " << valueStr << std::endl;
+            continue;
+        }
+        if (value < 0)
+		{
+            std::cout << "Error: not a positive number." << std::endl;
+            continue;
+        }
+        if (value > 1000)
+		{ 
+            std::cout << "Error: too large a number." << std::endl;
+            continue;
+        }
+        double exchangeRate = getExchangeRate(dateStr);
+        if (exchangeRate >= 0)
+		{
+            std::cout << dateStr << " => " << value << " = " << (value * exchangeRate) << std::endl;
+        }
     }
     return (_input);
 }
