@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/20 15:03:26 by juitz            ###   ########.fr       */
+/*   Updated: 2025/06/22 19:14:51 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,7 +250,7 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
         
         if (smaller_elements.size() > 1)
         {
-            std::vector<unsigned int> jseq = jacobsthal_sequence_vec(smaller_elements.size());
+            std::vector<unsigned int> jseq = jacobsthal_sequence_vec(larger_elements.size());
             std::vector<bool> inserted(pairs.size(), false);
             
             if (first_pair_idx != (size_t) -1)

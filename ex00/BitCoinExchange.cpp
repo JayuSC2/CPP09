@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:49:12 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/22 18:21:10 by juitz            ###   ########.fr       */
+/*   Updated: 2025/06/22 18:35:50 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ double BitCoinExchange::getExchangeRate(const std::string &date)
     
     if (it != _data.begin() && (it == _data.end() || it->first > date))
 	{
-		std::cout << "no data availale for date " << date << ", using most recent available data: " << (--it)->first << std::endl;
+		//std::cout << "no data availale for date " << date << ", using most recent available data: " << (--it)->first << std::endl;
         --it;
 	}
     return (it->second);
@@ -180,11 +180,11 @@ std::multimap<std::string, double> BitCoinExchange::input_to_map(const std::stri
 
     while (std::getline(inFile, line))
     {
-        std::string::size_type pipe_pos = line.find('|');
+        size_t pipe_pos = line.find('|');
         if (pipe_pos == std::string::npos)
 		{
             std::cout << "Error: bad input => " << line << std::endl;
-            continue;
+            continue ;
         }
 
         std::string dateStr = line.substr(0, pipe_pos);
@@ -198,7 +198,7 @@ std::multimap<std::string, double> BitCoinExchange::input_to_map(const std::stri
         if (!is_date_valid(dateStr))
 		{
             std::cout << "Error: bad date => " << dateStr << std::endl;
-            continue;
+            continue ;
         }
 
         char* end;
@@ -206,17 +206,17 @@ std::multimap<std::string, double> BitCoinExchange::input_to_map(const std::stri
         if (*end != '\0' || valueStr.empty())
 		{
             std::cout << "Error: value is not a valid number => " << valueStr << std::endl;
-            continue;
+            continue ;
         }
         if (value < 0)
 		{
             std::cout << "Error: not a positive number." << std::endl;
-            continue;
+            continue ;
         }
         if (value > 1000)
 		{ 
             std::cout << "Error: too large a number." << std::endl;
-            continue;
+            continue ;
         }
         double exchangeRate = getExchangeRate(dateStr);
         if (exchangeRate >= 0)

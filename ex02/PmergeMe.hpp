@@ -6,24 +6,21 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:55:27 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/19 17:49:42 by juitz            ###   ########.fr       */
+/*   Updated: 2025/06/20 16:17:44 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 #include <iostream>
 #include <sstream>
-#include <climits>
 #include <vector>
 #include <cstdio>
 #include <cstdlib>
 #include <deque>
-#include <map>
 
 class PmergeMe
 {
 	private:
-		//std::string rawInput;
 		std::vector<int> _vector;
 		std::deque<int> _deque;
 		unsigned int _unpaired;

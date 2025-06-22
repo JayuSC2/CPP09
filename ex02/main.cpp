@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:54:41 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/19 19:20:38 by juitz            ###   ########.fr       */
+/*   Updated: 2025/06/22 19:08:56 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +53,19 @@ int main(int argc, char **argv)
 	}
 	std::cout << std::endl;
 	clock_t end = clock();
-	clock_t start2 = clock();
+	/* clock_t start2 = clock();
 	sort.sorter_dq();
 	std::cout << "Deque After: ";
 	for (int i = 0; i < argc - 1; i++)
 	{
 		std::cout << sort.get_deque()[i] << " ";
 	}
-	clock_t end2 = clock();
+	clock_t end2 = clock(); */
 	std::cout << std::endl;
 	double elapsed = double(end - start) / CLOCKS_PER_SEC * 1000;
-	double elapsed2 = double(end2 - start2) / CLOCKS_PER_SEC * 1000;
+	//double elapsed2 = double(end2 - start2) / CLOCKS_PER_SEC * 1000;
 	std::cout << "Time to process a range of " << sort.get_vector().size() << " elements with std::vector " << elapsed << " ms" << std::endl;
-	std::cout << "Time to process a range of " << sort.get_deque().size() << " elements with std::deque " << elapsed2 << " ms" << std::endl;
+	//std::cout << "Time to process a range of " << sort.get_deque().size() << " elements with std::deque " << elapsed2 << " ms" << std::endl;
 	std::cout << "Number of comparisons: " << sort.get_operations() << std::endl;
 	//sort.sorter();
 	/* for (size_t i = 0; i < sort.get_vector().size(); i++)
