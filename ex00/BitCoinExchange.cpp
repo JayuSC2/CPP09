@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:49:12 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/22 18:35:50 by juitz            ###   ########.fr       */
+/*   Updated: 2025/06/23 12:55:22 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,69 @@ std::multimap<std::string, double> BitCoinExchange::input_to_map(const std::stri
         std::cout << "Error: could not open file " << filename << std::endl;
         return (_input);
     }
+
+    std::string line;
+    bool firstLine = true;
+    while (std::getline(inFile, line))
+    {
+        std::istringstream ss(line);
+        std::string dateStr;
+        double value;
+
+        if (std::getline(ss, dateStr, '|') && ss >> value)
+        {
+			if (!isdigit(line[0]))
+			{
+				std::cout << "Error: first char has to be a digit => " << line << std::endl;
+				continue ;
+			}
+			int pipe_pos = findChar(line, '|');
+			if (line[pipe_pos - 1] != ' ' || line[pipe_pos + 1] != ' ')
+			{
+				std::cout << "Error: bad input => " << line << std::endl;
+				continue ;
+			}
+			dateStr.erase(0, dateStr.find_first_not_of(" \t"));
+            dateStr.erase(dateStr.find_last_not_of(" \t") + 1);
+            if (value > static_cast<double>(std::numeric_limits<int>::max()))
+            {
+                std::cout << "Error: too large a number." << std::endl;
+                continue ;
+            }
+			if (value < 0)
+			{
+                std::cout << "Error: not a positive number." << std::endl;
+                continue ;
+            }
+			if (!is_date_valid(dateStr) && firstLine == false)
+			{
+				std::cout << "Error: Date not valid." << std::endl;
+				continue ;
+			}
+            _input.insert(std::make_pair(dateStr, static_cast<double>(value)));
+			
+			double exchangeRate = getExchangeRate(dateStr);
+            if (exchangeRate >= 0)
+                std::cout << dateStr << " => " << value << " = " << (value * exchangeRate) << std::endl;
+			
+        }
+        else if (!firstLine)
+        {
+            std::cout << "Error: bad input => " << line << std::endl;
+        }
+        firstLine = false;
+    }
+    return (_input);
+}
+
+/* std::multimap<std::string, double> BitCoinExchange::input_to_map(const std::string &filename)
+{
+    std::ifstream inFile(filename.c_str());
+    if (!inFile)
+    {
+        std::cout << "Error: could not open file " << filename << std::endl;
+        return (_input);
+    }
 	std::string line;
     if (!std::getline(inFile, line))
 	{
@@ -225,6 +288,6 @@ std::multimap<std::string, double> BitCoinExchange::input_to_map(const std::stri
         }
     }
     return (_input);
-}
+} */
 
 
