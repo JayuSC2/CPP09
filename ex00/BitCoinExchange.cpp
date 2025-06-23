@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:49:12 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/23 12:55:22 by juitz            ###   ########.fr       */
+/*   Updated: 2025/06/23 16:45:14 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,33 @@ std::multimap<std::string, double> BitCoinExchange::input_to_map(const std::stri
 				std::cout << "Error: bad input => " << line << std::endl;
 				continue ;
 			}
+		    bool value_is_valid = true;
+            bool period_found = false;
+            std::string value_part = line.substr(pipe_pos + 1);
+            value_part.erase(0, value_part.find_first_not_of(" \t"));
+
+            for (size_t i = 0; i < value_part.length(); ++i)
+            {
+                if (isdigit(value_part[i]))
+                {
+                    continue ;
+                }
+                else if (value_part[i] == '.' && !period_found)
+                {
+                    period_found = true;
+                }
+                else
+                {
+                    value_is_valid = false;
+                    break ;
+                }
+            }
+
+            if (!value_is_valid)
+            {
+                std::cout << "Error: bad input => " << line << std::endl;
+                continue ;
+            }
 			dateStr.erase(0, dateStr.find_first_not_of(" \t"));
             dateStr.erase(dateStr.find_last_not_of(" \t") + 1);
             if (value > static_cast<double>(std::numeric_limits<int>::max()))
