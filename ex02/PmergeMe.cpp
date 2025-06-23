@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/22 19:14:51 by juitz            ###   ########.fr       */
+/*   Updated: 2025/06/23 20:57:52 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -432,7 +432,6 @@ void PmergeMe::ford_johnson_sort(std::deque<int>& arr, int& unpaired)
                     {
                         binary_insert(arr, current_smaller, pos);
                     }
-                    
                     inserted[idx] = true;
                 }
             }
