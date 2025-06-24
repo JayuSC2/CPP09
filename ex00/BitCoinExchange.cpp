@@ -6,13 +6,11 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:49:12 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/23 16:45:14 by juitz            ###   ########.fr       */
+/*   Updated: 2025/06/24 19:02:23 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitCoinExchange.hpp"
-#include <cctype>
-
 
 BitCoinExchange::BitCoinExchange()
 {
@@ -59,6 +57,11 @@ const char* BitCoinExchange::FileDoesntExist::what() const throw()
    return ("Error: could not open file ");
 }
 
+const char* BitCoinExchange::FileIsEmpty::what() const throw()
+{
+   return ("Error: file is empty ");
+}
+
 std::map<std::string, double> BitCoinExchange::data_to_map(const std::string &filename)
 {
 	std::ifstream inFile(filename.c_str());
@@ -66,7 +69,6 @@ std::map<std::string, double> BitCoinExchange::data_to_map(const std::string &fi
 	{
 		throw FileDoesntExist();
 	}
-	
 	std::string line;
 	bool firstLine = true;
 	while (std::getline(inFile, line))
@@ -106,6 +108,8 @@ std::map<std::string, double> BitCoinExchange::data_to_map(const std::string &fi
 
 double BitCoinExchange::getExchangeRate(const std::string &date)
 {
+	if (_data.empty())
+		throw FileIsEmpty();
     if (_data.find(date) != _data.end())
         return (_data[date]);
     
@@ -164,119 +168,167 @@ int findChar(const std::string& str, char c)
     return (-1);
 }
 
+// std::multimap<std::string, double> BitCoinExchange::input_to_map(const std::string &filename)
+// {
+//     std::ifstream inFile(filename.c_str());
+//     if (!inFile)
+//     {
+//        throw FileDoesntExist();
+//     }
+
+//     std::string header;
+//     if (!std::getline(inFile, header))
+//     {
+//         std::cerr << "Error: Cannot read from empty file." << std::endl;
+//         return (_input);
+//     }
+// 	if (header != "date | value")
+//     {
+//         std::cerr << "Error: Invalid file header. Expected 'date | value'." << std::endl;
+//         return (_input); 
+//     }
+// 	std::string line;
+//     while (std::getline(inFile, line))
+//     {
+//         std::istringstream ss(line);
+//         std::string dateStr;
+//         double value;
+
+//         if (std::getline(ss, dateStr, '|') && ss >> value)
+//         {
+// 			if (!isdigit(line[0]))
+// 			{
+// 				std::cout << "Error: first char has to be a digit => " << line << std::endl;
+// 				continue ;
+// 			}
+// 			int pipe_pos = findChar(line, '|');
+// 			if (line[pipe_pos - 1] != ' ' || line[pipe_pos + 1] != ' ')
+// 			{
+// 				std::cout << "Error: bad input => " << line << std::endl;
+// 				continue ;
+// 			}
+// 		    bool value_is_valid = true;
+//             bool period_found = false;
+//             std::string value_part = line.substr(pipe_pos + 1);
+//             value_part.erase(0, value_part.find_first_not_of(" \t"));
+
+//             for (size_t i = 0; i < value_part.length(); ++i)
+//             {
+//                 if (isdigit(value_part[i]))
+//                 {
+//                     continue ;
+//                 }
+//                 else if (value_part[i] == '.' && !period_found)
+//                 {
+//                     period_found = true;
+//                 }
+//                 else
+//                 {
+//                     value_is_valid = false;
+//                     break ;
+//                 }
+//             }
+
+//             if (!value_is_valid)
+//             {
+//                 std::cout << "Error: bad input => " << line << std::endl;
+//                 continue ;
+//             }
+// 			dateStr.erase(0, dateStr.find_first_not_of(" \t"));
+//             dateStr.erase(dateStr.find_last_not_of(" \t") + 1);
+//             if (value > static_cast<double>(std::numeric_limits<int>::max()))
+//             {
+//                 std::cout << "Error: too large a number." << std::endl;
+//                 continue ;
+//             }
+// 			if (value < 0)
+// 			{
+//                 std::cout << "Error: not a positive number." << std::endl;
+//                 continue ;
+//             }
+// 			if (!is_date_valid(dateStr) /* && firstLine == false */)
+// 			{
+// 				std::cout << "Error: Date not valid." << std::endl;
+// 				continue ;
+// 			}
+//             _input.insert(std::make_pair(dateStr, static_cast<double>(value)));
+			
+// 			double exchangeRate = getExchangeRate(dateStr);
+//             if (exchangeRate >= 0)
+//                 std::cout << dateStr << " => " << value << " = " << (value * exchangeRate) << std::endl;
+			
+//         }
+//      /*    else if (!firstLine)
+//         {
+//             std::cout << "Error: bad input => " << line << std::endl;
+//         }
+//         firstLine = false; */
+//     }
+//     return (_input);
+// }
+
 std::multimap<std::string, double> BitCoinExchange::input_to_map(const std::string &filename)
 {
-    std::ifstream inFile(filename.c_str());
+	std::ifstream inFile(filename.c_str());
     if (!inFile)
     {
-        std::cout << "Error: could not open file " << filename << std::endl;
+       throw FileDoesntExist();
+    }
+
+    std::string header;
+    if (!std::getline(inFile, header))
+    {
+        std::cerr << "Error: Cannot read from empty file." << std::endl;
         return (_input);
     }
-
-    std::string line;
-    bool firstLine = true;
-    while (std::getline(inFile, line))
+	if (header != "date | value")
     {
-        std::istringstream ss(line);
-        std::string dateStr;
-        double value;
-
-        if (std::getline(ss, dateStr, '|') && ss >> value)
-        {
-			if (!isdigit(line[0]))
-			{
-				std::cout << "Error: first char has to be a digit => " << line << std::endl;
-				continue ;
-			}
-			int pipe_pos = findChar(line, '|');
-			if (line[pipe_pos - 1] != ' ' || line[pipe_pos + 1] != ' ')
-			{
-				std::cout << "Error: bad input => " << line << std::endl;
-				continue ;
-			}
-		    bool value_is_valid = true;
-            bool period_found = false;
-            std::string value_part = line.substr(pipe_pos + 1);
-            value_part.erase(0, value_part.find_first_not_of(" \t"));
-
-            for (size_t i = 0; i < value_part.length(); ++i)
-            {
-                if (isdigit(value_part[i]))
-                {
-                    continue ;
-                }
-                else if (value_part[i] == '.' && !period_found)
-                {
-                    period_found = true;
-                }
-                else
-                {
-                    value_is_valid = false;
-                    break ;
-                }
-            }
-
-            if (!value_is_valid)
-            {
-                std::cout << "Error: bad input => " << line << std::endl;
-                continue ;
-            }
-			dateStr.erase(0, dateStr.find_first_not_of(" \t"));
-            dateStr.erase(dateStr.find_last_not_of(" \t") + 1);
-            if (value > static_cast<double>(std::numeric_limits<int>::max()))
-            {
-                std::cout << "Error: too large a number." << std::endl;
-                continue ;
-            }
-			if (value < 0)
-			{
-                std::cout << "Error: not a positive number." << std::endl;
-                continue ;
-            }
-			if (!is_date_valid(dateStr) && firstLine == false)
-			{
-				std::cout << "Error: Date not valid." << std::endl;
-				continue ;
-			}
-            _input.insert(std::make_pair(dateStr, static_cast<double>(value)));
-			
-			double exchangeRate = getExchangeRate(dateStr);
-            if (exchangeRate >= 0)
-                std::cout << dateStr << " => " << value << " = " << (value * exchangeRate) << std::endl;
-			
-        }
-        else if (!firstLine)
-        {
-            std::cout << "Error: bad input => " << line << std::endl;
-        }
-        firstLine = false;
-    }
-    return (_input);
-}
-
-/* std::multimap<std::string, double> BitCoinExchange::input_to_map(const std::string &filename)
-{
-    std::ifstream inFile(filename.c_str());
-    if (!inFile)
-    {
-        std::cout << "Error: could not open file " << filename << std::endl;
-        return (_input);
-    }
-	std::string line;
-    if (!std::getline(inFile, line))
-	{
+        std::cerr << "Error: Invalid file header. Expected 'date | value'." << std::endl;
         return (_input); 
     }
-
+	
+	std::string line;
     while (std::getline(inFile, line))
     {
-        size_t pipe_pos = line.find('|');
-        if (pipe_pos == std::string::npos)
+		if (!isdigit(line[0]))
 		{
-            std::cout << "Error: bad input => " << line << std::endl;
-            continue ;
-        }
+			std::cout << "Error: first char has to be a digit => " << line << std::endl;
+			continue ;
+		}
+		int pipe_pos = findChar(line, '|');
+		if (line[pipe_pos - 1] != ' ' || line[pipe_pos + 1] != ' ')
+		{
+			std::cout << "Error: bad input => " << line << std::endl;
+			continue ;
+		}
+		bool value_is_valid = true;
+		bool period_found = false;
+		std::string value_part = line.substr(pipe_pos + 1);
+		value_part.erase(0, value_part.find_first_not_of(" \t"));
 
+		for (size_t i = 0; i < value_part.length(); ++i)
+		{
+			if (isdigit(value_part[i]))
+			{
+				continue ;
+			}
+			else if (value_part[i] == '.' && !period_found)
+			{
+				period_found = true;
+			}
+			else
+			{
+				value_is_valid = false;
+				break ;
+			}
+		}
+
+		if (!value_is_valid)
+		{
+			std::cout << "Error: bad input => " << line << std::endl;
+			continue ;
+		}
+	
         std::string dateStr = line.substr(0, pipe_pos);
         std::string valueStr = line.substr(pipe_pos + 1);
 
@@ -315,6 +367,6 @@ std::multimap<std::string, double> BitCoinExchange::input_to_map(const std::stri
         }
     }
     return (_input);
-} */
+}
 
 
