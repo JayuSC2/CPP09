@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:55:27 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/20 16:17:44 by juitz            ###   ########.fr       */
+/*   Updated: 2025/06/26 15:19:06 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ class PmergeMe
 		std::deque<unsigned int> jacobsthal_sequence_dq(unsigned int n);
 		void ford_johnson_sort(std::vector<int>& arr, int &unpaired);
 		void ford_johnson_sort(std::deque<int>& arr, int &unpaired);
-		size_t binary_insert(std::vector<int>& arr, int value, unsigned int upper_bound);
-		size_t binary_insert(std::deque<int>& arr, int value, unsigned int upper_bound);
+		size_t binary_insert(std::vector<int>& arr, int value, size_t upper_bound);
+		size_t binary_insert(std::deque<int>& arr, int value, size_t upper_bound);
 		//void binary_insert(std::vector<int>& arr, int value, unsigned int upper_bound);
 		void sorter_vec();
 		void sorter_dq();
