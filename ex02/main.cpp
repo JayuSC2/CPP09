@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:54:41 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/26 14:52:19 by juitz            ###   ########.fr       */
+/*   Updated: 2025/06/26 16:41:25 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ int main(int argc, char **argv)
 		std::cout << sort.get_vector()[i] << " ";
 	}
 	std::cout << std::endl;
-	if (sort.parse_deque(argc, argv) != 0)
+	/* if (sort.parse_deque(argc, argv) != 0)
 		return (1);
 	std::cout << "Deque Before: ";
 	for (int i = 0; i < argc - 1; i++)
 	{
 		std::cout << sort.get_deque()[i] << " ";
 	}
-	std::cout << std::endl;
+	std::cout << std::endl; */
 	clock_t start = clock();
 	// std::vector<unsigned int> jseq = sort.jacobsthal_sequence_vec(sort.get_vector().size());
 	// std::cout << "Jacobsthal sequence: ";
@@ -74,7 +74,7 @@ int main(int argc, char **argv)
 	{
 		std::cout << pairs[i] << std::endl;
 	} */
-	// if (sort.is_sorted())
-	// 	std::cout << "Array is sorted" << std::endl;
+	if (sort.is_sorted())
+		std::cout << "Array is sorted" << std::endl;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:55:27 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/26 15:19:06 by juitz            ###   ########.fr       */
+/*   Updated: 2025/06/26 16:39:27 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ class PmergeMe
 		std::vector<int> _vector;
 		std::deque<int> _deque;
 		unsigned int _unpaired;
-		unsigned int _operationCounter;
+		unsigned int _comparisonCounter;
 		time_t _vector_time;
 		time_t _deque_time;
 	public:

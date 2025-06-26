@@ -6,13 +6,13 @@
 /*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/26 15:21:18 by juitz            ###   ########.fr       */
+/*   Updated: 2025/06/26 17:17:58 by juitz            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 
-PmergeMe::PmergeMe() : _vector(0), _deque(0), _unpaired(0), _operationCounter(0)
+PmergeMe::PmergeMe() : _vector(0), _deque(0), _unpaired(0), _comparisonCounter(0)
 {
 }
 
@@ -30,7 +30,7 @@ PmergeMe::PmergeMe(const PmergeMe &copy)
 	this->_vector = copy._vector;
 	this->_deque = copy._deque;
 	this->_unpaired = copy._unpaired;
-	this->_operationCounter = copy._operationCounter;
+	this->_comparisonCounter = copy._comparisonCounter;
 }
 
 PmergeMe &PmergeMe::operator=(const PmergeMe &other)
@@ -40,7 +40,7 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &other)
 		this->_vector = other._vector;
 		this->_deque = other._deque;
 		this->_unpaired = other._unpaired;
-		this->_operationCounter = other._operationCounter;
+		this->_comparisonCounter = other._comparisonCounter;
 	}
 	return (*this);
 }
@@ -57,7 +57,7 @@ const std::deque<int>& PmergeMe::get_deque() const
 
 const unsigned int& PmergeMe::get_operations() const
 {
-	return (_operationCounter);
+	return (_comparisonCounter);
 }
 
 int	PmergeMe::parse_vector(int argc, char **argv)
@@ -115,7 +115,7 @@ std::vector<PmergeMe::IntPair> PmergeMe::make_pairs(const std::vector<int>& inpu
         }
         pair.original_index = i/2;
         pairs.push_back(pair);
-        _operationCounter++;
+        _comparisonCounter++;
     }
     if (input.size() % 2 != 0)
     {
@@ -147,7 +147,7 @@ std::deque<PmergeMe::IntPair> PmergeMe::make_pairs(const std::deque<int>& input,
         }
         pair.original_index = i/2;
         pairs.push_back(pair);
-        _operationCounter++;
+        _comparisonCounter++;
     }
     if (input.size() % 2 != 0)
     {
@@ -180,7 +180,7 @@ std::vector<unsigned int> PmergeMe::jacobsthal_sequence_vec(unsigned int n)
 	{
         return (sequence);
 	}
-	sequence.push_back(1);
+	sequence.push_back(0);
 
     unsigned int j_index = 3;
     unsigned int j_val = jacobsthal(j_index);
@@ -207,6 +207,7 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
 	{
         return ;
 	}
+
     int level_unpaired = -1;
     std::vector<IntPair> pairs = make_pairs(arr, level_unpaired);
 
@@ -439,7 +440,7 @@ size_t PmergeMe::binary_insert(std::vector<int>& arr, int value, size_t upper_bo
     while (left < right)
     {
         unsigned int mid = left + (right - left) / 2;
-        _operationCounter++;
+        _comparisonCounter++;
         if (arr[mid] <= value)
             left = mid + 1;
         else
@@ -593,7 +594,7 @@ size_t PmergeMe::binary_insert(std::deque<int>& arr, int value, size_t upper_bou
     while (left < right)
     {
         unsigned int mid = left + (right - left) / 2;
-        _operationCounter++;
+        _comparisonCounter++;
         if (arr[mid] <= value)
             left = mid + 1;
         else
@@ -606,7 +607,7 @@ size_t PmergeMe::binary_insert(std::deque<int>& arr, int value, size_t upper_bou
 void PmergeMe::sorter_vec()
 {
     std::vector<int> working_copy = _vector;
-    _operationCounter = 0;
+    _comparisonCounter = 0;
 
     int unpaired = -1;
     ford_johnson_sort(working_copy, unpaired);
@@ -617,7 +618,7 @@ void PmergeMe::sorter_vec()
 void PmergeMe::sorter_dq()
 {
     std::deque<int> working_copy = _deque;
-    _operationCounter = 0;
+    _comparisonCounter = 0;
 
     int unpaired = -1;
     ford_johnson_sort(working_copy, unpaired);
