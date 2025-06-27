@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitCoinExchange.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:49:12 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/24 19:02:23 by juitz            ###   ########.fr       */
+/*   Updated: 2025/06/27 18:22:26 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -295,57 +295,59 @@ std::multimap<std::string, double> BitCoinExchange::input_to_map(const std::stri
 			std::cout << "Error: first char has to be a digit => " << line << std::endl;
 			continue ;
 		}
-		int pipe_pos = findChar(line, '|');
-		if (line[pipe_pos - 1] != ' ' || line[pipe_pos + 1] != ' ')
-		{
-			std::cout << "Error: bad input => " << line << std::endl;
-			continue ;
-		}
+		 size_t pipe_pattern_pos = line.find(" | ");
+        if (pipe_pattern_pos == std::string::npos)
+        {
+            std::cout << "Error: bad input => " << line << std::endl;
+            continue ;
+        }
+
+        // Extract date and value parts WITHOUT trimming
+        std::string dateStr = line.substr(0, pipe_pattern_pos);
+        std::string valueStr = line.substr(pipe_pattern_pos + 3); // +3 to skip " | "
+		
+		if (!is_date_valid(dateStr))
+        {
+            std::cout << "Error: bad date => " << dateStr << std::endl;
+            continue ;
+        }
+
 		bool value_is_valid = true;
 		bool period_found = false;
-		std::string value_part = line.substr(pipe_pos + 1);
-		value_part.erase(0, value_part.find_first_not_of(" \t"));
-
-		for (size_t i = 0; i < value_part.length(); ++i)
-		{
-			if (isdigit(value_part[i]))
-			{
-				continue ;
-			}
-			else if (value_part[i] == '.' && !period_found)
-			{
-				period_found = true;
-			}
-			else
-			{
-				value_is_valid = false;
-				break ;
-			}
-		}
+	
+		if (valueStr.empty())
+        {
+            value_is_valid = false;
+        }
+		else
+        {
+            for (size_t i = 0; i < valueStr.length(); ++i)
+            {
+                if (isdigit(valueStr[i]))
+                {
+                    continue ;
+                }
+                else if (valueStr[i] == '.' && !period_found)
+                {
+                    period_found = true;
+                }
+                else
+                {
+                    value_is_valid = false;
+                    break ;
+                }
+            }
+        }
 
 		if (!value_is_valid)
 		{
 			std::cout << "Error: bad input => " << line << std::endl;
 			continue ;
 		}
-	
-        std::string dateStr = line.substr(0, pipe_pos);
-        std::string valueStr = line.substr(pipe_pos + 1);
-
-        dateStr.erase(0, dateStr.find_first_not_of(" \t"));
-        dateStr.erase(dateStr.find_last_not_of(" \t") + 1);
-        valueStr.erase(0, valueStr.find_first_not_of(" \t"));
-        valueStr.erase(valueStr.find_last_not_of(" \t") + 1);
-
-        if (!is_date_valid(dateStr))
-		{
-            std::cout << "Error: bad date => " << dateStr << std::endl;
-            continue ;
-        }
 
         char* end;
         double value = std::strtod(valueStr.c_str(), &end);
-        if (*end != '\0' || valueStr.empty())
+        if (*end != '\0')
 		{
             std::cout << "Error: value is not a valid number => " << valueStr << std::endl;
             continue ;
