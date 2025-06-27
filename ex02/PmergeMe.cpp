@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/26 17:17:58 by juitz            ###   ########.fr       */
+/*   Updated: 2025/06/27 09:54:53 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,25 +176,34 @@ std::vector<unsigned int> PmergeMe::jacobsthal_sequence_vec(unsigned int n)
 {
     std::vector<unsigned int> sequence;
 
+    // Return an empty sequence if there are no elements to process.
     if (n == 0)
-	{
+    {
         return (sequence);
-	}
-	sequence.push_back(0);
+    }
+    // The sequence always starts with the second element (index 1).
+    sequence.push_back(1);
 
+    // Initialize with the third Jacobsthal number (J_3 = 3).
     unsigned int j_index = 3;
     unsigned int j_val = jacobsthal(j_index);
 
+    // Continue generating the sequence until all necessary indices are included.
     while (sequence.size() < n - 1)
     {
+        // Add the Jacobsthal number itself as the next insertion index.
         if (j_val < n)
             sequence.push_back(j_val);
 
+        // Get the previous Jacobsthal number to define the current block.
         unsigned int prev_j_val = jacobsthal(j_index - 1);
+        // Iterate backwards from the current Jacobsthal number down to the previous one.
         for (unsigned int k = j_val - 1; k > prev_j_val && sequence.size() < n; k--)
         {
+            // Add these indices in descending order to the sequence.
             sequence.push_back(k);
         }
+        // Move to the next Jacobsthal number for the next block.
         j_index++;
         j_val = jacobsthal(j_index);
     }
@@ -203,14 +212,17 @@ std::vector<unsigned int> PmergeMe::jacobsthal_sequence_vec(unsigned int n)
 
 void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
 {
+	// Base case for the recursion: a list of 0 or 1 is already sorted.
     if (arr.size() <= 1)
 	{
         return ;
 	}
-
+	
+	// Create pairs from the input array and identify any leftover element.
     int level_unpaired = -1;
     std::vector<IntPair> pairs = make_pairs(arr, level_unpaired);
 
+	// Separate the pairs into two lists: one of larger and one of smaller elements.
     std::vector<int> larger_elements;
     std::vector<int> smaller_elements;
     
@@ -220,17 +232,21 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
         smaller_elements.push_back(pairs[i].second);
     }
 
+	// Recursively sort the list of larger elements.
     int recursive_unpaired = -1;
     ford_johnson_sort(larger_elements, recursive_unpaired);
     
+	// Rebuild the main array `arr` to be the sorted main chain.
     arr.clear();
     for (size_t i = 0; i < larger_elements.size(); i++)
     {
         arr.push_back(larger_elements[i]);
     }
 
+	// Begin inserting the smaller elements into the sorted main chain.
     if (!smaller_elements.empty())
     {
+		// Find the smaller element (b_1) that was paired with the smallest larger element (a_1).
         int first_larger = larger_elements[0];
         int first_smaller = -1;
         size_t first_pair_idx = (size_t) -1;
@@ -244,15 +260,18 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
                 break ;
             }
         }
-        
+        // Insert b_1 at the beginning of the main chain; no search is needed.
         if (first_smaller != -1)
         {
             arr.insert(arr.begin(), first_smaller);
         }
         
+		// Insert the rest of the smaller elements.
         if (smaller_elements.size() > 1)
 		{
+			// Generate the optimized insertion order using the Jacobsthal sequence.
 			std::vector<unsigned int> jseq = jacobsthal_sequence_vec(larger_elements.size());
+			// Keep track of which elements have been inserted.
 			std::vector<bool> inserted(pairs.size(), false);
 		
 			if (first_pair_idx != (size_t) -1)
@@ -263,6 +282,7 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
 			{
 				unsigned int larger_idx = jseq[i];
 				
+				// Mark b_1 as already inserted.
 				if (larger_idx < larger_elements.size())
 				{
 					int target_larger = larger_elements[larger_idx];

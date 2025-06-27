@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juitz <juitz@student.42.fr>                +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 15:54:41 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/26 16:41:25 by juitz            ###   ########.fr       */
+/*   Updated: 2025/06/27 09:15:08 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ int main(int argc, char **argv)
 	}
 	std::cout << std::endl; */
 	clock_t start = clock();
-	// std::vector<unsigned int> jseq = sort.jacobsthal_sequence_vec(sort.get_vector().size());
-	// std::cout << "Jacobsthal sequence: ";
-	// for (size_t i = 0; i < jseq.size() - 1; i++)
-	// 	std::cout << jseq[i] << " ";
-	// std::cout << std::endl;
+	std::vector<unsigned int> jseq = sort.jacobsthal_sequence_vec(sort.get_vector().size());
+	std::cout << "Jacobsthal sequence: ";
+	for (size_t i = 0; i < jseq.size() - 1; i++)
+		std::cout << jseq[i] << " ";
+	std::cout << std::endl;
 	sort.sorter_vec();
 	std::cout << "Vector After: ";
 	for (int i = 0; i < argc - 1; i++)
