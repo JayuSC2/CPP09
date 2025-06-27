@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 12:49:12 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/27 18:22:26 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/27 19:24:00 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -302,7 +302,6 @@ std::multimap<std::string, double> BitCoinExchange::input_to_map(const std::stri
             continue ;
         }
 
-        // Extract date and value parts WITHOUT trimming
         std::string dateStr = line.substr(0, pipe_pattern_pos);
         std::string valueStr = line.substr(pipe_pattern_pos + 3); // +3 to skip " | "
 		
@@ -370,5 +369,3 @@ std::multimap<std::string, double> BitCoinExchange::input_to_map(const std::stri
     }
     return (_input);
 }
-
-
