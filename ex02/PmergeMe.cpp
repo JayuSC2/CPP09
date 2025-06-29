@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/27 09:54:53 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/29 07:34:57 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -345,113 +345,6 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
     unpaired = level_unpaired;
 }
 
-/* void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
-{
-    if (arr.size() <= 1)
-        return ;
-
-    int level_unpaired = -1;
-    std::vector<IntPair> pairs = make_pairs(arr, level_unpaired);
-
-    std::vector<int> larger_elements;
-    std::vector<int> smaller_elements;
-    
-    for (size_t i = 0; i < pairs.size(); i++)
-    {
-        larger_elements.push_back(pairs[i].first);
-        smaller_elements.push_back(pairs[i].second);
-    }
-
-    int recursive_unpaired = -1;
-    ford_johnson_sort(larger_elements, recursive_unpaired);
-    
-    arr.clear();
-    for (size_t i = 0; i < larger_elements.size(); i++)
-    {
-        arr.push_back(larger_elements[i]);
-    }
-
-    if (!smaller_elements.empty())
-    {
-        int first_larger = larger_elements[0];
-        int first_smaller = -1;
-        size_t first_pair_idx = (size_t) -1;
-        
-        for (size_t i = 0; i < pairs.size(); i++)
-        {
-            if (pairs[i].first == first_larger)
-            {
-                first_smaller = pairs[i].second;
-                first_pair_idx = i;
-                break ;
-            }
-        }
-        
-        if (first_smaller != -1)
-        {
-            arr.insert(arr.begin(), first_smaller);
-        }
-        
-        if (smaller_elements.size() > 1)
-        {
-            std::vector<unsigned int> jseq = jacobsthal_sequence_vec(smaller_elements.size());
-            std::vector<bool> inserted(pairs.size(), false);
-            
-            if (first_pair_idx != (size_t) -1)
-                inserted[first_pair_idx] = true;
-            
-            for (size_t i = 0; i < jseq.size(); i++)
-            {
-                unsigned int idx = jseq[i];
-                
-                if (idx < pairs.size() && !inserted[idx])
-                {
-                    int current_larger = pairs[idx].first;
-                    int current_smaller = pairs[idx].second;
-                    
-                    size_t pos = 0;
-                    for (; pos < arr.size(); pos++)
-                    {
-                        if (arr[pos] == current_larger)
-                            break ;
-                    }
-                    
-                    if (pos < arr.size())
-                    {
-                        binary_insert(arr, current_smaller, pos);
-                    }
-                    inserted[idx] = true;
-                }
-            }
-            for (size_t i = 0; i < pairs.size(); i++)
-            {
-                if (!inserted[i])
-                {
-                    int current_larger = pairs[i].first;
-                    int current_smaller = pairs[i].second;
-                    
-                    size_t pos = 0;
-                    for (; pos < arr.size(); pos++)
-                    {
-                        if (arr[pos] == current_larger)
-                            break ;
-                    }
-                    
-                    if (pos < arr.size())
-                    {
-                        binary_insert(arr, current_smaller, pos);
-                    }
-                }
-            }
-        }
-    }
-    if (level_unpaired != -1)
-    {
-        binary_insert(arr, level_unpaired, arr.size());
-    }
-    unpaired = level_unpaired;
-} */
-
 size_t PmergeMe::binary_insert(std::vector<int>& arr, int value, size_t upper_bound)
 {
     unsigned int left = 0;
@@ -502,11 +395,12 @@ std::deque<unsigned int> PmergeMe::jacobsthal_sequence_dq(unsigned int n)
 void PmergeMe::ford_johnson_sort(std::deque<int>& arr, int& unpaired)
 {
     if (arr.size() <= 1)
+	{
         return ;
-
+	}
+	
     int level_unpaired = -1;
     std::deque<IntPair> pairs = make_pairs(arr, level_unpaired);
-
     std::deque<int> larger_elements;
     std::deque<int> smaller_elements;
     
@@ -515,7 +409,6 @@ void PmergeMe::ford_johnson_sort(std::deque<int>& arr, int& unpaired)
         larger_elements.push_back(pairs[i].first);
         smaller_elements.push_back(pairs[i].second);
     }
-
     int recursive_unpaired = -1;
     ford_johnson_sort(larger_elements, recursive_unpaired);
     
@@ -540,66 +433,74 @@ void PmergeMe::ford_johnson_sort(std::deque<int>& arr, int& unpaired)
                 break ;
             }
         }
-        
         if (first_smaller != -1)
         {
             arr.insert(arr.begin(), first_smaller);
         }
         
         if (smaller_elements.size() > 1)
-        {
-            std::deque<unsigned int> jseq = jacobsthal_sequence_dq(smaller_elements.size());
-            std::deque<bool> inserted(pairs.size(), false);
-            
-            if (first_pair_idx != (size_t) -1)
-                inserted[first_pair_idx] = true;
-            
-            for (size_t i = 0; i < jseq.size(); i++)
-            {
-                unsigned int idx = jseq[i];
-                
-                if (idx < pairs.size() && !inserted[idx])
-                {
-                    int current_larger = pairs[idx].first;
-                    int current_smaller = pairs[idx].second;
-                    
-                    size_t pos = 0;
-                    for (; pos < arr.size(); pos++)
-                    {
-                        if (arr[pos] == current_larger)
-                            break ;
-                    }
-                    
-                    if (pos < arr.size())
-                    {
-                        binary_insert(arr, current_smaller, pos);
-                    }
-                    inserted[idx] = true;
-                }
-            }
-            for (size_t i = 0; i < pairs.size(); i++)
-            {
-                if (!inserted[i])
-                {
-                    int current_larger = pairs[i].first;
-                    int current_smaller = pairs[i].second;
-                    
-                    size_t pos = 0;
-                    for (; pos < arr.size(); pos++)
-                    {
-                        if (arr[pos] == current_larger)
-                            break ;
-                    }
-                    
-                    if (pos < arr.size())
-                    {
-                        binary_insert(arr, current_smaller, pos);
-                    }
-                }
-            }
-        }
-    }
-    if (level_unpaired != -1)
+		{
+			std::deque<unsigned int> jseq = jacobsthal_sequence_dq(larger_elements.size());
+			std::deque<bool> inserted(pairs.size(), false);
+		
+			if (first_pair_idx != (size_t) -1)
+				inserted[first_pair_idx] = true;
+		
+			for (size_t i = 0; i < jseq.size(); i++)
+			{
+				unsigned int larger_idx = jseq[i];
+				
+				if (larger_idx < larger_elements.size())
+				{
+					int target_larger = larger_elements[larger_idx];
+					int corresponding_smaller = -1;
+					size_t pair_idx = (size_t) -1;
+					
+					for (size_t j = 0; j < pairs.size(); j++)
+					{
+						if (pairs[j].first == target_larger && !inserted[j])
+						{
+							corresponding_smaller = pairs[j].second;
+							pair_idx = j;
+							break ;
+						}
+					}
+					
+					if (corresponding_smaller != -1)
+					{
+						size_t upper_bound_pos = 0;
+						for (; upper_bound_pos < arr.size(); upper_bound_pos++)
+						{
+							if (arr[upper_bound_pos] == target_larger)
+								break ;
+						}
+						
+						binary_insert(arr, corresponding_smaller, upper_bound_pos);
+						inserted[pair_idx] = true;
+					}
+				}
+			}
+			
+			for (size_t i = 0; i < pairs.size(); i++)
+			{
+				if (!inserted[i])
+				{
+					int current_larger = pairs[i].first;
+					int current_smaller = pairs[i].second;
+					
+					size_t upper_bound_pos = 0;
+					for (; upper_bound_pos < arr.size(); upper_bound_pos++)
+					{
+						if (arr[upper_bound_pos] == current_larger)
+							break ;
+					}
+					
+					binary_insert(arr, current_smaller, upper_bound_pos);
+				}
+			}
+		}
+	}
+	if (level_unpaired != -1)
     {
         binary_insert(arr, level_unpaired, arr.size());
     }
