@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 11:09:20 by juitz             #+#    #+#             */
-/*   Updated: 2025/06/29 07:34:57 by codespace        ###   ########.fr       */
+/*   Updated: 2025/06/29 08:56:08 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,16 +176,13 @@ std::vector<unsigned int> PmergeMe::jacobsthal_sequence_vec(unsigned int n)
 {
     std::vector<unsigned int> sequence;
 
-    // Return an empty sequence if there are no elements to process.
     if (n == 0)
     {
         return (sequence);
     }
-    // The sequence always starts with the second element (index 1).
-    sequence.push_back(1);
-
-    // Initialize with the third Jacobsthal number (J_3 = 3).
-    unsigned int j_index = 3;
+   
+    // Initialize with the third Jacobsthal number (J_2 = 1).
+    unsigned int j_index = 2;
     unsigned int j_val = jacobsthal(j_index);
 
     // Continue generating the sequence until all necessary indices are included.
@@ -236,7 +233,7 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
     int recursive_unpaired = -1;
     ford_johnson_sort(larger_elements, recursive_unpaired);
     
-	// Rebuild the main array `arr` to be the sorted main chain.
+	// Rebuild the main array "arr" to be the sorted main chain.
     arr.clear();
     for (size_t i = 0; i < larger_elements.size(); i++)
     {
@@ -260,7 +257,7 @@ void PmergeMe::ford_johnson_sort(std::vector<int>& arr, int& unpaired)
                 break ;
             }
         }
-        // Insert b_1 at the beginning of the main chain; no search is needed.
+        // Insert b_1 at the beginning of the main chain, no search is needed.
         if (first_smaller != -1)
         {
             arr.insert(arr.begin(), first_smaller);
